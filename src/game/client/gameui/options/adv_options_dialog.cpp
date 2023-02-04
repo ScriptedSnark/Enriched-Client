@@ -13,6 +13,7 @@
 #include "options_crosshair.h"
 #include "options_scoreboard.h"
 #include "options_general.h"
+#include "options_video.h"
 #include "options_about.h"
 
 CON_COMMAND(gameui_cl_open_adv_options, "Opens Advanced Options dialog")
@@ -30,7 +31,7 @@ CON_COMMAND(gameui_cl_open_adv_options, "Opens Advanced Options dialog")
 CAdvOptionsDialog::CAdvOptionsDialog(vgui2::Panel *pParent)
     : BaseClass(pParent, "AdvOptionsDialog")
 {
-	SetBounds(0, 0, 512, 406);
+	SetBounds(0, 0, 536, 406);
 	SetSizeable(false);
 	SetDeleteSelfOnClose(true);
 
@@ -42,6 +43,7 @@ CAdvOptionsDialog::CAdvOptionsDialog(vgui2::Panel *pParent)
 	AddPage(new CScoreboardSubOptions(this), "#BHL_AdvOptions_Scores");
 	AddPage(new CCrosshairSubOptions(this), "#BHL_AdvOptions_Cross");
 	AddPage(new CModelSubOptions(this), "#BHL_AdvOptions_Models");
+	AddPage(new CVideoSubOptions(this), "#BHL_AdvOptions_Video");
 	AddPage(new CAboutSubOptions(this), "#BHL_AdvOptions_About");
 
 	SetApplyButtonVisible(true);
