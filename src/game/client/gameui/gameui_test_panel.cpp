@@ -63,7 +63,7 @@ void CGameUITestPanel::PerformLayout()
 	int x, y, wide, tall;
 	GetClientArea(x, y, wide, tall);
 	m_pText->SetBounds(x + OFFSET, y + OFFSET, wide - OFFSET * 2, tall - OFFSET * 2);
-	m_pText->SetFgColor(Color(255, 0, 0, 255)); // For color testing
+	m_pText->SetFgColor(Color(255, 0, 255, 255)); // For color testing
 }
 
 void CGameUITestPanel::Activate()
