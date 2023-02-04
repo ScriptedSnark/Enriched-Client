@@ -10,7 +10,6 @@ add_sources(
 	cvar_slider.h
 	cvar_text_entry.cpp
 	cvar_text_entry.h
-	
 	adv_options_dialog.cpp
 	adv_options_dialog.h
 	options_about.cpp
@@ -31,6 +30,8 @@ add_sources(
 	options_models.h
 	options_scoreboard.cpp
 	options_scoreboard.h
+	options_video.cpp
+	options_video.h
 )
 
 add_subdirectory( colorpicker )
