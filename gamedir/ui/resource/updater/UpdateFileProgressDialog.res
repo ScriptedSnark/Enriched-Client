@@ -17,7 +17,7 @@
 		"enabled"		"1"
 		"tabPosition"		"0"
 		"settitlebarvisible"		"1"
-		"Title"		"#BHL_Update_ExtractionTitle"
+		"Title"		"#ENR_Update_ExtractionTitle"
 	}
 	"frame_topGrip"
 	{

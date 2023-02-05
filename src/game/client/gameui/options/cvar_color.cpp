@@ -10,7 +10,7 @@ CCvarColor::CCvarColor(vgui2::Panel *parent, const char *panelName, const char *
 {
 	SetSize(128, 24);
 	m_pPreview = new vgui2::Panel(this, "ColorPreview");
-	m_pBtn = new vgui2::Button(this, "PickColorBtn", "#BHL_PickColor", this, "pickcolor");
+	m_pBtn = new vgui2::Button(this, "PickColorBtn", "#ENR_PickColor", this, "pickcolor");
 	m_pColorPicker = new CColorPicker(this, "ColorPicker", cvarTitle);
 	m_pColorPicker->AddActionSignalTarget(this);
 

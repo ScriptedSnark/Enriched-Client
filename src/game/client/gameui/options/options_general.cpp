@@ -18,35 +18,35 @@ CGeneralSubOptions::CGeneralSubOptions(vgui2::Panel *parent)
 {
 	SetSize(100, 100); // Silence "parent not sized yet" warning
 
-	m_pFovLabel = new vgui2::Label(this, "FovLabel", "#BHL_AdvOptions_General_FOV");
+	m_pFovLabel = new vgui2::Label(this, "FovLabel", "#ENR_AdvOptions_General_FOV");
 	m_pFovValue = new CCvarTextEntry(this, "FovValue", "default_fov", CCvarTextEntry::CvarType::Float);
 	m_pFovSlider = new vgui2::Slider(this, "FovSlider");
 	m_pFovSlider->SetRange(90, 150);
 	m_pFovSlider->SetValue(m_pFovValue->GetFloat());
 	m_pFovSlider->AddActionSignalTarget(this);
 
-	m_pRawInputLabel = new vgui2::Label(this, "RawInputLabel", "#BHL_AdvOptions_General_Input");
+	m_pRawInputLabel = new vgui2::Label(this, "RawInputLabel", "#ENR_AdvOptions_General_Input");
 	m_pInputMethodBox = new vgui2::ComboBox(this, "InputMethodBox", 3, false);
-	m_InputMethodItems[0] = m_pInputMethodBox->AddItem("#BHL_AdvOptions_General_InputEng", new KeyValues("Item", "value", 0));
-	m_InputMethodItems[1] = m_pInputMethodBox->AddItem(GetItemText("BHL_AdvOptions_General_InputDX", IsWindows()), new KeyValues("Item", "value", 1));
-	m_InputMethodItems[2] = m_pInputMethodBox->AddItem(GetItemText("BHL_AdvOptions_General_InputSDL", !IsWindows()), new KeyValues("Item", "value", 2));
+	m_InputMethodItems[0] = m_pInputMethodBox->AddItem("#ENR_AdvOptions_General_InputEng", new KeyValues("Item", "value", 0));
+	m_InputMethodItems[1] = m_pInputMethodBox->AddItem(GetItemText("ENR_AdvOptions_General_InputDX", IsWindows()), new KeyValues("Item", "value", 1));
+	m_InputMethodItems[2] = m_pInputMethodBox->AddItem(GetItemText("ENR_AdvOptions_General_InputSDL", !IsWindows()), new KeyValues("Item", "value", 2));
 
-	m_pKillSnd = new CCvarCheckButton(this, "KillSnd", "#BHL_AdvOptions_General_KillSnd", "cl_killsound");
-	m_pKillSndLabel = new vgui2::Label(this, "KillSndLabel", "#BHL_AdvOptions_General_KillSnd2");
+	m_pKillSnd = new CCvarCheckButton(this, "KillSnd", "#ENR_AdvOptions_General_KillSnd", "cl_killsound");
+	m_pKillSndLabel = new vgui2::Label(this, "KillSndLabel", "#ENR_AdvOptions_General_KillSnd2");
 
-	m_pMOTD = new CCvarCheckButton(this, "MOTD", "#BHL_AdvOptions_General_HTML", "cl_enable_html_motd");
-	m_pMOTDLabel = new vgui2::Label(this, "MOTDLabel", "#BHL_AdvOptions_General_HTML2");
+	m_pMOTD = new CCvarCheckButton(this, "MOTD", "#ENR_AdvOptions_General_HTML", "cl_enable_html_motd");
+	m_pMOTDLabel = new vgui2::Label(this, "MOTDLabel", "#ENR_AdvOptions_General_HTML2");
 
-	m_pAutoJump = new CCvarCheckButton(this, "AutoJump", "#BHL_AdvOptions_General_AutoJump", "cl_autojump");
-	m_pAutoJumpLabel = new vgui2::Label(this, "AutoJumpLabel", "#BHL_AdvOptions_General_AutoJump2");
+	m_pAutoJump = new CCvarCheckButton(this, "AutoJump", "#ENR_AdvOptions_General_AutoJump", "cl_autojump");
+	m_pAutoJumpLabel = new vgui2::Label(this, "AutoJumpLabel", "#ENR_AdvOptions_General_AutoJump2");
 
-	m_pLogChat = new CCvarCheckButton(this, "LogChat", "#BHL_AdvOptions_General_LogChat", "results_log_chat");
-	m_pLogOther = new CCvarCheckButton(this, "LogOther", "#BHL_AdvOptions_General_LogOther", "results_log_other");
-	m_pAutoDemo = new CCvarCheckButton(this, "AutoDemo", "#BHL_AdvOptions_General_AutoDemo", "results_demo_autorecord");
-	m_pAutoDemoLabel = new vgui2::Label(this, "AutoDemoLabel", "#BHL_AdvOptions_General_AutoDemo2");
+	m_pLogChat = new CCvarCheckButton(this, "LogChat", "#ENR_AdvOptions_General_LogChat", "results_log_chat");
+	m_pLogOther = new CCvarCheckButton(this, "LogOther", "#ENR_AdvOptions_General_LogOther", "results_log_other");
+	m_pAutoDemo = new CCvarCheckButton(this, "AutoDemo", "#ENR_AdvOptions_General_AutoDemo", "results_demo_autorecord");
+	m_pAutoDemoLabel = new vgui2::Label(this, "AutoDemoLabel", "#ENR_AdvOptions_General_AutoDemo2");
 	m_pKeepFor = new CCvarTextEntry(this, "KeepFor", "results_demo_keepdays", CCvarTextEntry::CvarType::Int);
-	m_pKeepForLabel = new vgui2::Label(this, "KeepForLabel", "#BHL_AdvOptions_General_KeepFor");
-	m_pDaysLabel = new vgui2::Label(this, "DaysLabel", "#BHL_AdvOptions_General_Days");
+	m_pKeepForLabel = new vgui2::Label(this, "KeepForLabel", "#ENR_AdvOptions_General_KeepFor");
+	m_pDaysLabel = new vgui2::Label(this, "DaysLabel", "#ENR_AdvOptions_General_Days");
 
 	LoadControlSettings(VGUI2_ROOT_DIR "resource/options/GeneralSubOptions.res");
 
@@ -138,7 +138,7 @@ const wchar_t *CGeneralSubOptions::GetItemText(const char *token, bool isRecomme
 		return text;
 
 	static wchar_t wbuf[256];
-	wchar_t *rec = g_pVGuiLocalize->Find("BHL_AdvOptions_General_InputRec");
+	wchar_t *rec = g_pVGuiLocalize->Find("ENR_AdvOptions_General_InputRec");
 	V_snwprintf(wbuf, std::size(wbuf), L"%ls %ls", text, rec);
 	return wbuf;
 }

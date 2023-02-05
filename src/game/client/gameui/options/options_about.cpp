@@ -27,7 +27,7 @@ public:
 	COptionsOSSCreditsDialog(vgui2::Panel *pParent, const char *name)
 	    : BaseClass(pParent, name)
 	{
-		SetTitle("#BHL_AdvOptions_About_OSSCredits", true);
+		SetTitle("#ENR_AdvOptions_About_OSSCredits", true);
 		SetSize(640, 480);
 		m_pText = new vgui2::RichText(this, "Text");
 
@@ -95,21 +95,21 @@ CAboutSubOptions::CAboutSubOptions(vgui2::Panel *parent)
 {
 	SetSize(100, 100); // Silence "parent not sized yet" warning
 
-	m_pBHLLabel = new vgui2::Label(this, "BHLLabel", "#BHL_AdvOptions_About_BHL");
-	m_pVerTextLabel = new vgui2::Label(this, "VerTextLabel", "#BHL_AdvOptions_About_Version");
+	m_pBHLLabel = new vgui2::Label(this, "BHLLabel", "#ENR_AdvOptions_About_ENR");
+	m_pVerTextLabel = new vgui2::Label(this, "VerTextLabel", "#ENR_AdvOptions_About_Version");
 	m_pVerLabel = new vgui2::Label(this, "VerLabel", "?");
 
-	m_pLatestVerTextLabel = new vgui2::Label(this, "LatestVerTextLabel", "#BHL_AdvOptions_About_NewVersion");
-	m_pLatestVerLabel = new vgui2::Label(this, "LatestVerLabel", "#BHL_AdvOptions_About_NoUpdater");
-	m_pUpdateLabel = new vgui2::Label(this, "UpdateLable", "#BHL_AdvOptions_About_NewUpdate");
-	m_pCheckUpdatesButton = new vgui2::Button(this, "CheckUpdatesButton", "#BHL_AdvOptions_About_Check", this, "CheckUpd");
+	m_pLatestVerTextLabel = new vgui2::Label(this, "LatestVerTextLabel", "#ENR_AdvOptions_About_NewVersion");
+	m_pLatestVerLabel = new vgui2::Label(this, "LatestVerLabel", "#ENR_AdvOptions_About_NoUpdater");
+	m_pUpdateLabel = new vgui2::Label(this, "UpdateLable", "#ENR_AdvOptions_About_NewUpdate");
+	m_pCheckUpdatesButton = new vgui2::Button(this, "CheckUpdatesButton", "#ENR_AdvOptions_About_Check", this, "CheckUpd");
 
-	m_pGitHubLink = new vgui2::URLLabel(this, "GitHubLink", "#BHL_AdvOptions_About_GitHub", "URL goes here");
-	m_pAghlLink = new vgui2::URLLabel(this, "AghlLink", "#BHL_AdvOptions_About_AGHL", "URL goes here");
-	m_pOSSCredits = new COptionsURLButton(this, "OSSCredits", "#BHL_AdvOptions_About_OSSCredits");
+	m_pGitHubLink = new vgui2::URLLabel(this, "GitHubLink", "#ENR_AdvOptions_About_GitHub", "URL goes here");
+	m_pDiscordLink = new vgui2::URLLabel(this, "DiscordLink", "#ENR_AdvOptions_About_Discord", "URL goes here");
+	m_pOSSCredits = new COptionsURLButton(this, "OSSCredits", "#ENR_AdvOptions_About_OSSCredits");
 
 #if USE_UPDATER
-	m_pAutoCheck = new CCvarCheckButton(this, "AutoCheck", "#BHL_AdvOptions_About_AutoCheck", "cl_check_for_updates");
+	m_pAutoCheck = new CCvarCheckButton(this, "AutoCheck", "#ENR_AdvOptions_About_AutoCheck", "cl_check_for_updates");
 	m_GameVer = CUpdateChecker::Get().GetCurVersion();
 #else
 	m_GameVer = CGameVersion(APP_VERSION);
@@ -132,8 +132,7 @@ void CAboutSubOptions::PerformLayout()
 {
 	BaseClass::PerformLayout();
 
-	m_pGitHubLink->SetURL(BHL_GITHUB_URL);
-	m_pAghlLink->SetURL(BHL_FORUM_URL);
+	m_pGitHubLink->SetURL(ENR_GITHUB_URL);
 
 	auto fnPositionAfter = [](vgui2::Label *left, vgui2::Label *right) {
 		int x, y, wide, tall;
@@ -214,7 +213,7 @@ void CAboutSubOptions::UpdateControls()
 	}
 
 #if !USE_UPDATER
-	m_pLatestVerLabel->SetText("#BHL_AdvOptions_About_NoUpdater");
+	m_pLatestVerLabel->SetText("#ENR_AdvOptions_About_NoUpdater");
 	m_pUpdateLabel->SetVisible(false);
 	m_pCheckUpdatesButton->SetEnabled(false);
 #else
@@ -245,7 +244,7 @@ void CAboutSubOptions::UpdateControls()
 	}
 	else
 	{
-		m_pLatestVerLabel->SetText("#BHL_AdvOptions_About_Unknown");
+		m_pLatestVerLabel->SetText("#ENR_AdvOptions_About_Unknown");
 		m_pUpdateLabel->SetVisible(false);
 	}
 #endif

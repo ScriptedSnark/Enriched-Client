@@ -16,34 +16,34 @@ CHudSubOptions::CHudSubOptions(vgui2::Panel *parent)
 {
 	SetSize(100, 100); // Silence "parent not sized yet" warning
 
-	m_pOpacityLabel = new vgui2::Label(this, "OpacityLabel", "#BHL_AdvOptions_HUD_Opacity");
+	m_pOpacityLabel = new vgui2::Label(this, "OpacityLabel", "#ENR_AdvOptions_HUD_Opacity");
 	m_pOpacityValue = new CCvarTextEntry(this, "OpacityValue", "hud_draw", CCvarTextEntry::CvarType::Float);
 	m_pOpacitySlider = new vgui2::Slider(this, "OpacitySlider");
 	m_pOpacitySlider->SetRange(0, 100);
 	m_pOpacitySlider->SetValue(m_pOpacityValue->GetFloat() * 100.f);
 	m_pOpacitySlider->AddActionSignalTarget(this);
 
-	m_pRenderCheckbox = new CCvarCheckButton(this, "RenderCheckbox", "#BHL_AdvOptions_HUD_Render", "hud_client_renderer");
-	m_pDimCheckbox = new CCvarCheckButton(this, "DimCheckbox", "#BHL_AdvOptions_HUD_Dim", "hud_dim");
-	m_pViewmodelCheckbox = new CCvarCheckButton(this, "ViewmodelCheckbox", "#BHL_AdvOptions_HUD_Viewmodel", "r_drawviewmodel", true);
-	m_pWeaponSpriteCheckbox = new CCvarCheckButton(this, "WeaponSpriteCheckbox", "#BHL_AdvOptions_HUD_WeapSprite", "hud_weapon");
-	m_pCenterIdCvar = new CCvarCheckButton(this, "CenterIdCvar", "#BHL_AdvOptions_HUD_CenterId", "hud_centerid");
-	m_pRainbowCvar = new CCvarCheckButton(this, "RainbowCvar", "#BHL_AdvOptions_HUD_Rainbow", "hud_rainbow");
+	m_pRenderCheckbox = new CCvarCheckButton(this, "RenderCheckbox", "#ENR_AdvOptions_HUD_Render", "hud_client_renderer");
+	m_pDimCheckbox = new CCvarCheckButton(this, "DimCheckbox", "#ENR_AdvOptions_HUD_Dim", "hud_dim");
+	m_pViewmodelCheckbox = new CCvarCheckButton(this, "ViewmodelCheckbox", "#ENR_AdvOptions_HUD_Viewmodel", "r_drawviewmodel", true);
+	m_pWeaponSpriteCheckbox = new CCvarCheckButton(this, "WeaponSpriteCheckbox", "#ENR_AdvOptions_HUD_WeapSprite", "hud_weapon");
+	m_pCenterIdCvar = new CCvarCheckButton(this, "CenterIdCvar", "#ENR_AdvOptions_HUD_CenterId", "hud_centerid");
+	m_pRainbowCvar = new CCvarCheckButton(this, "RainbowCvar", "#ENR_AdvOptions_HUD_Rainbow", "hud_rainbow");
 
-	m_pSpeedCheckbox = new CCvarCheckButton(this, "SpeedCheckbox", "#BHL_AdvOptions_HUD_Speed", "hud_speedometer");
-	m_pSpeedCrossCheckbox = new CCvarCheckButton(this, "SpeedCrossCheckbox", "#BHL_AdvOptions_HUD_SpeedCross", "hud_speedometer_below_cross");
+	m_pSpeedCheckbox = new CCvarCheckButton(this, "SpeedCheckbox", "#ENR_AdvOptions_HUD_Speed", "hud_speedometer");
+	m_pSpeedCrossCheckbox = new CCvarCheckButton(this, "SpeedCrossCheckbox", "#ENR_AdvOptions_HUD_SpeedCross", "hud_speedometer_below_cross");
 
-	m_pJumpSpeedCheckbox = new CCvarCheckButton(this, "JumpSpeedCheckbox", "#BHL_AdvOptions_HUD_JumpSpeed", "hud_jumpspeed");
-	m_pJumpSpeedCrossCheckbox = new CCvarCheckButton(this, "JumpSpeedCrossCheckbox", "#BHL_AdvOptions_HUD_JumpSpeedCross", "hud_jumpspeed_below_cross");
+	m_pJumpSpeedCheckbox = new CCvarCheckButton(this, "JumpSpeedCheckbox", "#ENR_AdvOptions_HUD_JumpSpeed", "hud_jumpspeed");
+	m_pJumpSpeedCrossCheckbox = new CCvarCheckButton(this, "JumpSpeedCrossCheckbox", "#ENR_AdvOptions_HUD_JumpSpeedCross", "hud_jumpspeed_below_cross");
 
-	m_pDeathnoticeVGui = new CCvarCheckButton(this, "DeathnoticeCheckbox", "#BHL_AdvOptions_HUD_Deathnotice", "hud_deathnotice_vgui");
+	m_pDeathnoticeVGui = new CCvarCheckButton(this, "DeathnoticeCheckbox", "#ENR_AdvOptions_HUD_Deathnotice", "hud_deathnotice_vgui");
 
-	m_pTimerLabel = new vgui2::Label(this, "TimerLabel", "#BHL_AdvOptions_Hud_Timer");
+	m_pTimerLabel = new vgui2::Label(this, "TimerLabel", "#ENR_AdvOptions_Hud_Timer");
 	m_pTimerBox = new vgui2::ComboBox(this, "TimerBox", 4, false);
-	m_TimerItems[0] = m_pTimerBox->AddItem("#BHL_AdvOptions_Hud_Timer0", new KeyValues("Off", "value", 0));
-	m_TimerItems[1] = m_pTimerBox->AddItem("#BHL_AdvOptions_Hud_Timer1", new KeyValues("TimeLeft", "value", 1));
-	m_TimerItems[2] = m_pTimerBox->AddItem("#BHL_AdvOptions_Hud_Timer2", new KeyValues("TimePassed", "value", 2));
-	m_TimerItems[3] = m_pTimerBox->AddItem("#BHL_AdvOptions_Hud_Timer3", new KeyValues("LocalTime", "value", 3));
+	m_TimerItems[0] = m_pTimerBox->AddItem("#ENR_AdvOptions_Hud_Timer0", new KeyValues("Off", "value", 0));
+	m_TimerItems[1] = m_pTimerBox->AddItem("#ENR_AdvOptions_Hud_Timer1", new KeyValues("TimeLeft", "value", 1));
+	m_TimerItems[2] = m_pTimerBox->AddItem("#ENR_AdvOptions_Hud_Timer2", new KeyValues("TimePassed", "value", 2));
+	m_TimerItems[3] = m_pTimerBox->AddItem("#ENR_AdvOptions_Hud_Timer3", new KeyValues("LocalTime", "value", 3));
 
 	LoadControlSettings(VGUI2_ROOT_DIR "resource/options/HudSubOptions.res");
 	m_pOpacityLabel->MoveToFront(); // Obscured by the slider

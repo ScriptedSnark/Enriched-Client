@@ -103,7 +103,7 @@ ConVar cl_righthand("cl_righthand", "0", FCVAR_BHL_ARCHIVE, "If enabled, activat
 ConVar cl_viewmodel_fov("cl_viewmodel_fov", "0", FCVAR_BHL_ARCHIVE, "Sets the field-of-view for the viewmodel");
 ConVar showtriggers("showtriggers", "0", 0, "Shows trigger brushes");
 
-ConVar aghl_version("aghl_version", APP_VERSION, 0, "BugfixedHL version");
+ConVar aghl_version("aghl_version", APP_VERSION, 0, "Enriched version");
 ConVar aghl_supports("aghl_supports", "0", 0, "Bitfield of features supported by this client");
 ConVar cl_enable_html_motd("cl_enable_html_motd", "1", FCVAR_BHL_ARCHIVE, "Enables/disables support for HTML MOTDs");
 
@@ -161,13 +161,14 @@ void HookHudMessage(const char *name)
 
 static void AboutCommand(void)
 {
-	ConPrintf("BugfixedHL-Rebased\n");
-	ConPrintf("Bugfixed and improved Half-Life Client\n");
+	ConPrintf("Enriched Client\n");
+	ConPrintf("============================================\n");
 	ConPrintf("Version: " APP_VERSION "%s\n", IsDebug() ? " [Debug Build]" : "");
 	ConPrintf("Engine: %s\n", gHUD.GetEngineVersion());
 	ConPrintf("\n");
-	ConPrintf("Github: " BHL_GITHUB_URL "\n");
-	ConPrintf("Discussion forum: " BHL_FORUM_URL "\n");
+	ConPrintf("Github: " ENR_GITHUB_URL "\n");
+	ConPrintf("Discord server: " ENR_DISCORD_URL "\n");
+	ConPrintf("============================================\n");
 }
 
 CHud::CHud()

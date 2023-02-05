@@ -19,22 +19,22 @@ CModelSubOptions::CModelSubOptions(vgui2::Panel *parent)
 	SetSize(100, 100); // Silence "parent not sized yet" warning
 
 	m_pEnemyModels = new vgui2::ListPanel(this, "EnemyModels");
-	m_pEnemyModels->AddColumnHeader(0, "ModelName", "#BHL_AdvOptions_Models_ModelName", 1024, 0, 1024, vgui2::ListPanel::COLUMN_RESIZEWITHWINDOW);
+	m_pEnemyModels->AddColumnHeader(0, "ModelName", "#ENR_AdvOptions_Models_ModelName", 1024, 0, 1024, vgui2::ListPanel::COLUMN_RESIZEWITHWINDOW);
 	m_pEnemyModels->SetColumnSortable(0, false);
 	m_pEnemyModels->SetIgnoreDoubleClick(true);
 
-	m_pAddEnemyModel = new vgui2::Button(this, "AddEnemyModel", "#BHL_AdvOptions_Models_Add", this, "AddEnemyModel");
-	m_pRemoveEnemyModel = new vgui2::Button(this, "RemoveEnemyModel", "#BHL_AdvOptions_Models_Remove", this, "RemoveEnemyModel");
-	m_pRemoveAllEnemyModels = new vgui2::Button(this, "RemoveAllEnemyModels", "#BHL_AdvOptions_Models_RemoveAll", this, "RemoveAllEnemyModels");
+	m_pAddEnemyModel = new vgui2::Button(this, "AddEnemyModel", "#ENR_AdvOptions_Models_Add", this, "AddEnemyModel");
+	m_pRemoveEnemyModel = new vgui2::Button(this, "RemoveEnemyModel", "#ENR_AdvOptions_Models_Remove", this, "RemoveEnemyModel");
+	m_pRemoveAllEnemyModels = new vgui2::Button(this, "RemoveAllEnemyModels", "#ENR_AdvOptions_Models_RemoveAll", this, "RemoveAllEnemyModels");
 	m_pNewEnemyModelName = new vgui2::TextEntry(this, "NewEnemyModelName");
 
 	m_pTeamModel = new CCvarTextEntry(this, "TeamModel", "cl_forceteammatesmodels");
 	m_pEnemyColors = new CCvarTextEntry(this, "EnemyColors", "cl_forceenemycolors");
 	m_pTeamColors = new CCvarTextEntry(this, "TeamColors", "cl_forceteammatescolors");
-	m_pHideCorpses = new CCvarCheckButton(this, "HideCorpses", "#BHL_AdvOptions_Models_HideCorpses", "cl_hidecorpses");
-	m_pLeftHand = new CCvarCheckButton(this, "LeftHand", "#BHL_AdvOptions_Models_LeftHand", "cl_righthand");
-	m_pAngledBob = new CCvarCheckButton(this, "AngledBob", "#BHL_AdvOptions_Models_AngledBob", "cl_bob_angled");
-	m_pNoShells = new CCvarCheckButton(this, "NoShells", "#BHL_AdvOptions_Models_NoShells", "cl_noshells");
+	m_pHideCorpses = new CCvarCheckButton(this, "HideCorpses", "#ENR_AdvOptions_Models_HideCorpses", "cl_hidecorpses");
+	m_pLeftHand = new CCvarCheckButton(this, "LeftHand", "#ENR_AdvOptions_Models_LeftHand", "cl_righthand");
+	m_pAngledBob = new CCvarCheckButton(this, "AngledBob", "#ENR_AdvOptions_Models_AngledBob", "cl_bob_angled");
+	m_pNoShells = new CCvarCheckButton(this, "NoShells", "#ENR_AdvOptions_Models_NoShells", "cl_noshells");
 
 	LoadControlSettings(VGUI2_ROOT_DIR "resource/options/ModelSubOptions.res");
 }

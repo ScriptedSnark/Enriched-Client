@@ -115,26 +115,26 @@ CCrosshairSubOptions::CCrosshairSubOptions(vgui2::Panel *parent)
 {
 	SetSize(100, 100); // Silence "parent not sized yet" warning
 
-	m_pEnableCvar = new CCvarCheckButton(this, "EnableCvar", "#BHL_AdvOptions_Cross_Enable", "cl_cross_enable");
+	m_pEnableCvar = new CCvarCheckButton(this, "EnableCvar", "#ENR_AdvOptions_Cross_Enable", "cl_cross_enable");
 
-	m_pColorLabel = new vgui2::Label(this, "ColorLabel", "#BHL_AdvOptions_Cross_Color");
-	m_pColorCvar = new CCvarColor(this, "ColorCvar", nullptr, "#BHL_AdvOptions_Cross_Color_Title");
+	m_pColorLabel = new vgui2::Label(this, "ColorLabel", "#ENR_AdvOptions_Cross_Color");
+	m_pColorCvar = new CCvarColor(this, "ColorCvar", nullptr, "#ENR_AdvOptions_Cross_Color_Title");
 
-	m_pGapLabel = new vgui2::Label(this, "GapLabel", "#BHL_AdvOptions_Cross_Gap");
+	m_pGapLabel = new vgui2::Label(this, "GapLabel", "#ENR_AdvOptions_Cross_Gap");
 	m_pGapCvar = new CCvarTextEntry(this, "GapCvar", "cl_cross_gap", CCvarTextEntry::CvarType::Int);
 
-	m_pSizeLabel = new vgui2::Label(this, "SizeLabel", "#BHL_AdvOptions_Cross_Size");
+	m_pSizeLabel = new vgui2::Label(this, "SizeLabel", "#ENR_AdvOptions_Cross_Size");
 	m_pSizeCvar = new CCvarTextEntry(this, "SizeCvar", "cl_cross_size", CCvarTextEntry::CvarType::Int);
 
-	m_pThicknessLabel = new vgui2::Label(this, "ThicknessLabel", "#BHL_AdvOptions_Cross_Thickness");
+	m_pThicknessLabel = new vgui2::Label(this, "ThicknessLabel", "#ENR_AdvOptions_Cross_Thickness");
 	m_pThicknessCvar = new CCvarTextEntry(this, "ThicknessCvar", "cl_cross_thickness", CCvarTextEntry::CvarType::Int);
 
-	m_pOutlineThicknessLabel = new vgui2::Label(this, "OutlineThickness", "#BHL_AdvOptions_Cross_OutThickness");
+	m_pOutlineThicknessLabel = new vgui2::Label(this, "OutlineThickness", "#ENR_AdvOptions_Cross_OutThickness");
 	m_pOutlineThicknessCvar = new CCvarTextEntry(this, "OutlineThicknessCvar", "cl_cross_outline_thickness", CCvarTextEntry::CvarType::Int);
 
-	m_pDotCvar = new CCvarCheckButton(this, "DotCvar", "#BHL_AdvOptions_Cross_Dot", "cl_cross_dot");
+	m_pDotCvar = new CCvarCheckButton(this, "DotCvar", "#ENR_AdvOptions_Cross_Dot", "cl_cross_dot");
 
-	m_pTCvar = new CCvarCheckButton(this, "TCvar", "#BHL_AdvOptions_Cross_T", "cl_cross_t");
+	m_pTCvar = new CCvarCheckButton(this, "TCvar", "#ENR_AdvOptions_Cross_T", "cl_cross_t");
 
 	m_pColors[0] = gEngfuncs.pfnGetCvarPointer("cl_cross_red");
 	m_pColors[1] = gEngfuncs.pfnGetCvarPointer("cl_cross_green");

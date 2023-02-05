@@ -97,7 +97,7 @@
 	}
 	"16"
 	{
-		"label" "#BHL_GameMenu_AdvOptions"
+		"label" "#ENR_GameMenu_AdvOptions"
 		"command" "engine gameui_cl_open_adv_options"
 	}
 	"17"

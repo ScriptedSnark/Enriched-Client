@@ -198,7 +198,7 @@ int CL_DLLEXPORT Initialize(cl_enginefunc_t *pEnginefuncs, int iVersion)
 
 	if (bIsInitialized)
 	{
-		GetSDL()->ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "BugfixedHL Fatal Error", "The engine failed to unload client library during restart.");
+		GetSDL()->ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Enriched Fatal Error", "The engine failed to unload client library during restart.");
 		std::abort();
 		return 0;
 	}

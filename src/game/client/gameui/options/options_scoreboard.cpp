@@ -12,27 +12,27 @@ CScoreboardSubOptions::CScoreboardSubOptions(vgui2::Panel *parent)
 {
 	SetSize(100, 100); // Silence "parent not sized yet" warning
 
-	m_pShowAvatars = new CCvarCheckButton(this, "ShowAvatars", "#BHL_AdvOptions_Scores_ShowAvatars", "hud_scoreboard_showavatars");
-	m_pShowSteamId = new CCvarCheckButton(this, "ShowSteamId", "#BHL_AdvOptions_Scores_ShowSteamId", "hud_scoreboard_showsteamid");
-	m_pShowPacketLoss = new CCvarCheckButton(this, "ShowPacketLoss", "#BHL_AdvOptions_Scores_ShowLoss", "hud_scoreboard_showloss");
+	m_pShowAvatars = new CCvarCheckButton(this, "ShowAvatars", "#ENR_AdvOptions_Scores_ShowAvatars", "hud_scoreboard_showavatars");
+	m_pShowSteamId = new CCvarCheckButton(this, "ShowSteamId", "#ENR_AdvOptions_Scores_ShowSteamId", "hud_scoreboard_showsteamid");
+	m_pShowPacketLoss = new CCvarCheckButton(this, "ShowPacketLoss", "#ENR_AdvOptions_Scores_ShowLoss", "hud_scoreboard_showloss");
 
-	m_pShowEff = new CCvarCheckButton(this, "ShowEff", "#BHL_AdvOptions_Scores_ShowEff", "hud_scoreboard_showeff");
-	m_pEffTypeLabel = new vgui2::Label(this, "EffTypeLabel", "#BHL_AdvOptions_Scores_EffType");
+	m_pShowEff = new CCvarCheckButton(this, "ShowEff", "#ENR_AdvOptions_Scores_ShowEff", "hud_scoreboard_showeff");
+	m_pEffTypeLabel = new vgui2::Label(this, "EffTypeLabel", "#ENR_AdvOptions_Scores_EffType");
 	m_pEffTypeBox = new vgui2::ComboBox(this, "EffTypeBox", 2, false);
-	m_EffTypeItems[0] = m_pEffTypeBox->AddItem("#BHL_AdvOptions_Scores_EffType0", new KeyValues("Type0", "value", 0));
-	m_EffTypeItems[1] = m_pEffTypeBox->AddItem("#BHL_AdvOptions_Scores_EffType1", new KeyValues("Type1", "value", 1));
+	m_EffTypeItems[0] = m_pEffTypeBox->AddItem("#ENR_AdvOptions_Scores_EffType0", new KeyValues("Type0", "value", 0));
+	m_EffTypeItems[1] = m_pEffTypeBox->AddItem("#ENR_AdvOptions_Scores_EffType1", new KeyValues("Type1", "value", 1));
 
-	m_pMouseLabel = new vgui2::Label(this, "MouseLabel", "#BHL_AdvOptions_Scores_Mouse");
+	m_pMouseLabel = new vgui2::Label(this, "MouseLabel", "#ENR_AdvOptions_Scores_Mouse");
 	m_pMouseBox = new vgui2::ComboBox(this, "MouseBox", 3, false);
-	m_MouseItems[0] = m_pMouseBox->AddItem("#BHL_AdvOptions_Scores_Mouse0", new KeyValues("None", "value", 0));
-	m_MouseItems[1] = m_pMouseBox->AddItem("#BHL_AdvOptions_Scores_Mouse1", new KeyValues("MOUSE1", "value", 1));
-	m_MouseItems[2] = m_pMouseBox->AddItem("#BHL_AdvOptions_Scores_Mouse2", new KeyValues("MOUSE2", "value", 2));
+	m_MouseItems[0] = m_pMouseBox->AddItem("#ENR_AdvOptions_Scores_Mouse0", new KeyValues("None", "value", 0));
+	m_MouseItems[1] = m_pMouseBox->AddItem("#ENR_AdvOptions_Scores_Mouse1", new KeyValues("MOUSE1", "value", 1));
+	m_MouseItems[2] = m_pMouseBox->AddItem("#ENR_AdvOptions_Scores_Mouse2", new KeyValues("MOUSE2", "value", 2));
 
-	m_pSizeLabel = new vgui2::Label(this, "SizeLabel", "#BHL_AdvOptions_Scores_Size");
+	m_pSizeLabel = new vgui2::Label(this, "SizeLabel", "#ENR_AdvOptions_Scores_Size");
 	m_pSizeBox = new vgui2::ComboBox(this, "SizeBox", 3, false);
-	m_SizeItems[0] = m_pSizeBox->AddItem("#BHL_AdvOptions_Scores_Size0", new KeyValues("Auto", "value", 0));
-	m_SizeItems[1] = m_pSizeBox->AddItem("#BHL_AdvOptions_Scores_Size1", new KeyValues("Large", "value", 1));
-	m_SizeItems[2] = m_pSizeBox->AddItem("#BHL_AdvOptions_Scores_Size2", new KeyValues("Compact", "value", 2));
+	m_SizeItems[0] = m_pSizeBox->AddItem("#ENR_AdvOptions_Scores_Size0", new KeyValues("Auto", "value", 0));
+	m_SizeItems[1] = m_pSizeBox->AddItem("#ENR_AdvOptions_Scores_Size1", new KeyValues("Large", "value", 1));
+	m_SizeItems[2] = m_pSizeBox->AddItem("#ENR_AdvOptions_Scores_Size2", new KeyValues("Compact", "value", 2));
 
 	m_pShowInHud = new CCvarTextEntry(this, "ShowInHud", "hud_scores", CCvarTextEntry::CvarType::Int);
 

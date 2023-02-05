@@ -38,7 +38,7 @@ void CClientVGUI::Initialize(CreateInterfaceFn *pFactories, int iNumFactories)
 	}
 
 	// Add language files
-	g_pVGuiLocalize->AddFile(g_pFullFileSystem, VGUI2_ROOT_DIR "resource/language/bugfixedhl_%language%.txt");
+	g_pVGuiLocalize->AddFile(g_pFullFileSystem, VGUI2_ROOT_DIR "resource/language/enriched_%language%.txt");
 
 	new CClientViewport();
 	new CGameUIViewport();

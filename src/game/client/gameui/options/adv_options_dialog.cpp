@@ -35,16 +35,16 @@ CAdvOptionsDialog::CAdvOptionsDialog(vgui2::Panel *pParent)
 	SetSizeable(false);
 	SetDeleteSelfOnClose(true);
 
-	SetTitle("#BHL_AdvOptions", true);
+	SetTitle("#ENR_AdvOptions", true);
 
-	AddPage(new CGeneralSubOptions(this), "#BHL_AdvOptions_General");
-	AddPage(new CHudSubOptionsRoot(this), "#BHL_AdvOptions_HUD");
-	AddPage(new CChatSubOptions(this), "#BHL_AdvOptions_Chat");
-	AddPage(new CScoreboardSubOptions(this), "#BHL_AdvOptions_Scores");
-	AddPage(new CCrosshairSubOptions(this), "#BHL_AdvOptions_Cross");
-	AddPage(new CModelSubOptions(this), "#BHL_AdvOptions_Models");
-	AddPage(new CVideoSubOptions(this), "#BHL_AdvOptions_Video");
-	AddPage(new CAboutSubOptions(this), "#BHL_AdvOptions_About");
+	AddPage(new CGeneralSubOptions(this), "#ENR_AdvOptions_General");
+	AddPage(new CHudSubOptionsRoot(this), "#ENR_AdvOptions_HUD");
+	AddPage(new CChatSubOptions(this), "#ENR_AdvOptions_Chat");
+	AddPage(new CScoreboardSubOptions(this), "#ENR_AdvOptions_Scores");
+	AddPage(new CCrosshairSubOptions(this), "#ENR_AdvOptions_Cross");
+	AddPage(new CModelSubOptions(this), "#ENR_AdvOptions_Models");
+	AddPage(new CVideoSubOptions(this), "#ENR_AdvOptions_Video");
+	AddPage(new CAboutSubOptions(this), "#ENR_AdvOptions_About");
 
 	SetApplyButtonVisible(true);
 	EnableApplyButton(true);

@@ -13,7 +13,7 @@ CTeamMenu::CTeamMenu()
 {
 	char buf[64];
 
-	SetTitle("#BHL_TeamMenu_Title", true);
+	SetTitle("#ENR_TeamMenu_Title", true);
 	SetMoveable(false);
 	SetProportional(true);
 	SetSizeable(false);
@@ -25,9 +25,9 @@ CTeamMenu::CTeamMenu()
 		m_pTeamButtons[i] = new vgui2::Button(this, buf, "No Team", this, buf);
 	}
 
-	m_pAutoAssignButton = new vgui2::Button(this, "AutoAssignButton", "#BHL_TeamMenu_Auto_Assign", this, "AutoAssign");
-	m_pSpectateButton = new vgui2::Button(this, "SpectateButton", "#BHL_TeamMenu_Spectate", this, "Spectate");
-	m_pCancelButton = new vgui2::Button(this, "CancelButton", "#BHL_TeamMenu_Cancel", this, "Close");
+	m_pAutoAssignButton = new vgui2::Button(this, "AutoAssignButton", "#ENR_TeamMenu_Auto_Assign", this, "AutoAssign");
+	m_pSpectateButton = new vgui2::Button(this, "SpectateButton", "#ENR_TeamMenu_Spectate", this, "Spectate");
+	m_pCancelButton = new vgui2::Button(this, "CancelButton", "#ENR_TeamMenu_Cancel", this, "Close");
 	m_pBriefingText = new vgui2::RichText(this, "BriefingText");
 
 	LoadControlSettings(VGUI2_ROOT_DIR "resource/TeamMenu.res");
@@ -165,7 +165,7 @@ void CTeamMenu::Update()
 			}
 			else
 			{
-				m_pBriefingText->SetText("#BHL_TeamMenu_NoMapInfo");
+				m_pBriefingText->SetText("#ENR_TeamMenu_NoMapInfo");
 			}
 
 			m_bUpdatedMapName = true;

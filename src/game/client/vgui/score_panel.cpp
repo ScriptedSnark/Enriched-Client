@@ -151,7 +151,7 @@ CScorePanel::CScorePanel()
 	m_pPlayerList->SetMouseInputEnabled(true);
 	m_pPlayerList->SetVerticalScrollbar(false);
 
-	wchar_t *specTag = g_pVGuiLocalize->Find("#BHL_Scores_PlayerSpec");
+	wchar_t *specTag = g_pVGuiLocalize->Find("#ENR_Scores_PlayerSpec");
 	if (specTag)
 	{
 		Q_WStringToUTF8(specTag, m_szSpectatorTag, sizeof(m_szSpectatorTag));
@@ -488,7 +488,7 @@ void CScorePanel::CreateSection(int nTeamID)
 	// SteamID
 	if (hud_scoreboard_showsteamid.GetBool())
 	{
-		m_pPlayerList->AddColumnToSection(nTeamID, "steamid", nTeamID == HEADER_SECTION_ID ? "#BHL_Scores_ColSteamID" : "",
+		m_pPlayerList->AddColumnToSection(nTeamID, "steamid", nTeamID == HEADER_SECTION_ID ? "#ENR_Scores_ColSteamID" : "",
 		    vgui2::SectionedListPanel::COLUMN_BRIGHT,
 		    m_iColumnWidthSteamID);
 	}
@@ -496,7 +496,7 @@ void CScorePanel::CreateSection(int nTeamID)
 	// Efficiency
 	if (hud_scoreboard_showeff.GetBool())
 	{
-		m_pPlayerList->AddColumnToSection(nTeamID, "eff", nTeamID == HEADER_SECTION_ID ? "#BHL_Scores_ColEff" : "???",
+		m_pPlayerList->AddColumnToSection(nTeamID, "eff", nTeamID == HEADER_SECTION_ID ? "#ENR_Scores_ColEff" : "???",
 		    vgui2::SectionedListPanel::COLUMN_BRIGHT,
 		    m_iColumnWidthEff);
 	}
@@ -515,7 +515,7 @@ void CScorePanel::CreateSection(int nTeamID)
 	const char *pingLabel;
 
 	if (nTeamID == HEADER_SECTION_ID)
-		pingLabel = hud_scoreboard_showloss.GetBool() ? "#BHL_Scores_ColPingLoss" : "#BHL_Scores_ColPing";
+		pingLabel = hud_scoreboard_showloss.GetBool() ? "#ENR_Scores_ColPingLoss" : "#ENR_Scores_ColPing";
 	else
 		pingLabel = "";
 
@@ -876,17 +876,17 @@ void CScorePanel::CreatePlayerMenu()
 	m_pPlayerMenu->SetVisible(false);
 	m_pPlayerMenu->AddActionSignalTarget(this);
 
-	m_MenuData.nMuteItemID = m_pPlayerMenu->AddMenuItem("Mute", "#BHL_Scores_MenuMute", "MenuMute", this);
+	m_MenuData.nMuteItemID = m_pPlayerMenu->AddMenuItem("Mute", "#ENR_Scores_MenuMute", "MenuMute", this);
 	m_pPlayerMenu->AddSeparator();
 
-	m_MenuData.nProfilePageItemID = m_pPlayerMenu->AddMenuItem("SteamProfile", "#BHL_Scores_MenuSteamProfile", "MenuSteamProfile", this);
-	m_MenuData.nProfileUrlItemID = m_pPlayerMenu->AddMenuItem("SteamURL", "#BHL_Scores_MenuSteamURL", "MenuSteamURL", this);
+	m_MenuData.nProfilePageItemID = m_pPlayerMenu->AddMenuItem("SteamProfile", "#ENR_Scores_MenuSteamProfile", "MenuSteamProfile", this);
+	m_MenuData.nProfileUrlItemID = m_pPlayerMenu->AddMenuItem("SteamURL", "#ENR_Scores_MenuSteamURL", "MenuSteamURL", this);
 	m_pPlayerMenu->AddSeparator();
 
-	m_pPlayerMenu->AddMenuItem("CopyName", "#BHL_Scores_MenuCopyName", "MenuCopyName", this);
-	m_pPlayerMenu->AddMenuItem("CopyNameRaw", "#BHL_Scores_MenuCopyNameRaw", "MenuCopyNameRaw", this);
-	m_pPlayerMenu->AddMenuItem("CopySteamID", "#BHL_Scores_MenuCopySteamID", "MenuCopySteamID", this);
-	m_pPlayerMenu->AddMenuItem("CopySteamID64", "#BHL_Scores_MenuCopySteamID64", "MenuCopySteamID64", this);
+	m_pPlayerMenu->AddMenuItem("CopyName", "#ENR_Scores_MenuCopyName", "MenuCopyName", this);
+	m_pPlayerMenu->AddMenuItem("CopyNameRaw", "#ENR_Scores_MenuCopyNameRaw", "MenuCopyNameRaw", this);
+	m_pPlayerMenu->AddMenuItem("CopySteamID", "#ENR_Scores_MenuCopySteamID", "MenuCopySteamID", this);
+	m_pPlayerMenu->AddMenuItem("CopySteamID64", "#ENR_Scores_MenuCopySteamID64", "MenuCopySteamID64", this);
 }
 
 void CScorePanel::OpenPlayerMenu(int itemID)
@@ -919,7 +919,7 @@ void CScorePanel::OpenPlayerMenu(int itemID)
 	if (thisPlayer)
 	{
 		// Can't mute yourself
-		m_pPlayerMenu->UpdateMenuItem(m_MenuData.nMuteItemID, "#BHL_Scores_MenuMute", new KeyValues("Command", "command", "MenuMute"));
+		m_pPlayerMenu->UpdateMenuItem(m_MenuData.nMuteItemID, "#ENR_Scores_MenuMute", new KeyValues("Command", "command", "MenuMute"));
 		m_pPlayerMenu->SetItemEnabled(m_MenuData.nMuteItemID, false);
 	}
 	else
@@ -927,11 +927,11 @@ void CScorePanel::OpenPlayerMenu(int itemID)
 		m_pPlayerMenu->SetItemEnabled(m_MenuData.nMuteItemID, true);
 		if (GetClientVoiceMgr()->IsPlayerBlocked(m_MenuData.nClient))
 		{
-			m_pPlayerMenu->UpdateMenuItem(m_MenuData.nMuteItemID, "#BHL_Scores_MenuUnmute", new KeyValues("Command", "command", "MenuMute"));
+			m_pPlayerMenu->UpdateMenuItem(m_MenuData.nMuteItemID, "#ENR_Scores_MenuUnmute", new KeyValues("Command", "command", "MenuMute"));
 		}
 		else
 		{
-			m_pPlayerMenu->UpdateMenuItem(m_MenuData.nMuteItemID, "#BHL_Scores_MenuMute", new KeyValues("Command", "command", "MenuMute"));
+			m_pPlayerMenu->UpdateMenuItem(m_MenuData.nMuteItemID, "#ENR_Scores_MenuMute", new KeyValues("Command", "command", "MenuMute"));
 		}
 	}
 
