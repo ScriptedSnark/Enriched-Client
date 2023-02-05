@@ -60,6 +60,8 @@ void CHudMenu::Reset(void)
 
 void CHudMenu::VidInit(void)
 {
+	m_fMenuDisplayed = 0; // no valid slots means that the menu should be turned off
+	m_iFlags &= ~HUD_ACTIVE;
 }
 
 /*=================================
