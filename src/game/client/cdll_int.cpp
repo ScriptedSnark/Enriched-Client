@@ -44,6 +44,13 @@
 #include "opengl.h"
 #include "engfuncs.h"
 
+#ifdef _WIN32
+#include <winsani_in.h>
+#include "minhook/MinHook.h"
+#include "reGS_enginehook.h"
+#include <winsani_out.h>
+#endif
+
 CHud gHUD;
 
 void InitInput(void);
@@ -209,6 +216,10 @@ int CL_DLLEXPORT Initialize(cl_enginefunc_t *pEnginefuncs, int iVersion)
 	if (iVersion != CLDLL_INTERFACE_VERSION)
 		return 0;
 
+	#ifdef _WIN32
+	MH_Initialize();
+	#endif
+
 	EngFuncs_Init(pEnginefuncs);
 
 	// Save engine version before everything els
@@ -270,6 +281,9 @@ the hud variables.
 void CL_DLLEXPORT HUD_Init(void)
 {
 	//	RecClHudInit();
+	#ifdef _WIN32
+	HWHook();
+	#endif
 	console::HudInit();
 	CEnginePatches::Get().Init();
 	InitInput();
@@ -412,6 +426,10 @@ void CL_DLLEXPORT HUD_Shutdown(void)
 	CClientOpenGL::Get().Shutdown();
 	CEnginePatches::Get().Shutdown();
 	console::HudPostShutdown();
+
+	#ifdef _WIN32
+	MH_Uninitialize();
+	#endif
 
 #if defined(PLATFORM_WINDOWS) && defined(_DEBUG)
 	void Win_ValidateHeap(const std::function<void(const char *)> &logfn);

@@ -55,6 +55,9 @@ add_sources(
 	player_info.h
 	rainbow.cpp
 	rainbow.h
+	reGS_enginehook.cpp
+	reGS_enginehook.h
+	reGS_patterns.hpp
 	results.cpp
 	results.h
 	sdl_rt.cpp
@@ -111,6 +114,10 @@ endif()
 add_subdirectory( gameui )
 add_subdirectory( hl )
 add_subdirectory( hud )
+if( PLATFORM_WINDOWS )
+add_subdirectory( minhook )
+add_subdirectory( sptlib )
+endif()
 add_subdirectory( vgui )
 
 if( USE_UPDATER )

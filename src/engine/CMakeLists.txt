@@ -7,6 +7,9 @@ add_sources(
 	customentity.h
 	edict.h
 	eiface.h
+	gl_rsurf.cpp
+	gl_rsurf.h
+	glquake.h
 	progdefs.h
 	progs.h
 	shake.h
