@@ -1,7 +1,7 @@
+#ifdef _WIN32
+
 #include "glquake.h"
 #include "com_model.h"
-
-#ifdef _WIN32
 
 ConVar hw_disable_dynamic_lightmaps("hw_disable_dynamic_lightmaps", "0", FCVAR_BHL_ARCHIVE);
 
