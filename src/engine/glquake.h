@@ -10,9 +10,6 @@
 
 #ifdef _WIN32
 
-#include "hud.h"
-#include "cl_util.h"
-
 #include "reGS_enginehook.h"
 #include "sptlib/Utils.hpp"
 #include "minhook/MinHook.h"

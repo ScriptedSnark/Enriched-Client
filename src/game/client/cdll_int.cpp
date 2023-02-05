@@ -45,10 +45,8 @@
 #include "engfuncs.h"
 
 #ifdef _WIN32
-#include <winsani_in.h>
 #include "minhook/MinHook.h"
 #include "reGS_enginehook.h"
-#include <winsani_out.h>
 #endif
 
 CHud gHUD;

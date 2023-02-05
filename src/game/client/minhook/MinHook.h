@@ -32,7 +32,9 @@
 #error MinHook supports only x86 and x64 systems.
 #endif
 
+#include <winsani_in.h>
 #include <windows.h>
+#include <winsani_out.h>
 
 // MinHook Error Codes.
 typedef enum MH_STATUS

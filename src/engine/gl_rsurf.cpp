@@ -1,5 +1,7 @@
 #ifdef _WIN32
 
+#include "hud.h"
+#include "cl_util.h"
 #include "glquake.h"
 #include "com_model.h"
 
