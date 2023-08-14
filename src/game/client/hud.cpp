@@ -24,6 +24,9 @@
 #include <vgui_controls/AnimationController.h>
 #include <vgui_controls/Controls.h>
 
+#include <FileSystem.h>
+#include <tier2/tier2.h>
+
 #include <appversion.h>
 #include <bhl_urls.h>
 #include <ClientSupportsFlags.h>
@@ -38,6 +41,7 @@
 
 #include "demo.h"
 #include "demo_api.h"
+#include "net_api.h"
 #include "cl_voice_status.h"
 #include "bhlcfg.h"
 #include "results.h"
@@ -168,6 +172,32 @@ static void AboutCommand(void)
 	ConPrintf("\n");
 	ConPrintf("Github: " BHL_GITHUB_URL "\n");
 	ConPrintf("Discussion forum: " BHL_FORUM_URL "\n");
+}
+
+void WriteIPAddress()
+{
+	net_status_t netstatus;
+	gEngfuncs.pNetAPI->Status(&netstatus);
+
+	const char *address = gEngfuncs.pNetAPI->AdrToString(&netstatus.remote_address);
+
+	if (!address)
+		return;
+
+	if (!Q_strcmp(address, "loopback"))
+		return;
+
+	char szFile[MAX_PATH];
+	sprintf(szFile, "%s/lastip.txt", gEngfuncs.pfnGetGameDirectory()); // TODO:
+
+	FILE *pFile = fopen(szFile, "w");
+
+	if (!pFile)
+		return;
+
+	fprintf(pFile, address);
+	fflush(pFile);
+	fclose(pFile);
 }
 
 CHud::CHud()
@@ -331,6 +361,8 @@ void CHud::VidInit(void)
 {
 	m_scrinfo.iSize = sizeof(m_scrinfo);
 	GetScreenInfo(&m_scrinfo);
+
+	WriteIPAddress();
 
 	// Reset all player info
 	for (int i = 1; i <= MAX_PLAYERS; i++)
@@ -783,4 +815,24 @@ CON_COMMAND(_toggle, "Switches cvar values from arguments.")
 		cvar.SetValue(gEngfuncs.Cmd_Argv(2));
 		return;
 	}
+}
+
+CON_COMMAND(joinlast, "Joins latest server.")
+{
+	char path[MAX_PATH];
+	g_pFullFileSystem->GetLocalPath("lastip.txt", path, sizeof(path));
+
+	FILE *inFile;
+	inFile = fopen(path, "r");
+
+	if (!inFile)
+		return;
+
+	char address[32];
+	fgets(address, sizeof(address), inFile);
+
+	char cmd[64];
+	sprintf(cmd, "connect %s", address);
+
+	EngineClientCmd(cmd);
 }
