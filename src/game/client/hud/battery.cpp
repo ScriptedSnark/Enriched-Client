@@ -25,6 +25,10 @@
 #include "parsemsg.h"
 #include "battery.h"
 
+ConVar hud_battery_width_pos("hud_battery_width_pos", "5", FCVAR_BHL_ARCHIVE, "Armor weight position");
+ConVar hud_battery_top("hud_battery_top", "0", FCVAR_BHL_ARCHIVE, "Armor on top");
+ConVar hud_battery_hide("hud_battery_hide", "0", FCVAR_BHL_ARCHIVE, "Hide armor HUD if you don't have any armor");
+
 DEFINE_HUD_ELEM(CHudBattery);
 
 void CHudBattery::Init(void)
@@ -81,6 +85,9 @@ void CHudBattery::Draw(float flTime)
 	if (!(gHUD.m_iWeaponBits & (1 << (WEAPON_SUIT))))
 		return;
 
+	if (hud_battery_hide.GetBool() && m_iBat <= 0)
+		return;
+
 	if (!hud_dim.GetBool())
 		a = MIN_ALPHA + ALPHA_POINTS_MAX;
 	else if (m_fFade > 0)
@@ -100,8 +107,16 @@ void CHudBattery::Draw(float flTime)
 
 	int iOffset = (m_rc1.bottom - m_rc1.top) / 6;
 
-	y = ScreenHeight - gHUD.m_iFontHeight - gHUD.m_iFontHeight / 2;
-	x = ScreenWidth / 5;
+	if (hud_battery_top.GetBool())
+	{
+		y = ScreenHeight - gHUD.m_iFontHeight - gHUD.m_iFontHeight * 2.0;
+		x = gHUD.m_iFontHeight * 1.2 - gHUD.m_iFontHeight;
+	}
+	else
+	{
+		y = ScreenHeight - gHUD.m_iFontHeight - gHUD.m_iFontHeight / 2;
+		x = ScreenWidth / hud_battery_width_pos.GetInt();
+	}
 
 	// make sure we have the right sprite handles
 	if (!m_hSprite1)

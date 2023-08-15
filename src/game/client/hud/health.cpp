@@ -31,6 +31,8 @@
 #define PAIN_NAME   "sprites/%d_pain.spr"
 #define DAMAGE_NAME "sprites/%d_dmg.spr"
 
+extern ConVar hud_battery_top;
+
 int giDmgHeight, giDmgWidth;
 
 int giDmgFlags[NUM_DMG_TYPES] = {
@@ -235,7 +237,8 @@ void CHudHealth::Draw(float flTime)
 		a *= gHUD.GetHudTransparency();
 		gHUD.GetHudColor(HudPart::Common, 0, r, g, b);
 
-		FillRGBA(x, y, iWidth, iHeight, r, g, b, a);
+		if (!hud_battery_top.GetBool())
+			FillRGBA(x, y, iWidth, iHeight, r, g, b, a);
 	}
 
 	DrawDamage(flTime);
