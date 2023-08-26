@@ -228,6 +228,28 @@ int CHud::DrawHudString(int xpos, int ypos, int iMaxX, char *szIt, int r, int g,
 	return xpos + gEngfuncs.pfnDrawString(xpos, ypos, szIt, r, g, b);
 }
 
+
+int CHud::DrawMultilineString(int x, int y, std::string s, float r, float g, float b)
+{
+	int max_new_x = 0;
+
+	while (s.size() > 0)
+	{
+		auto pos = s.find('\n');
+
+		int new_x = gEngfuncs.pfnDrawString(x, y, const_cast<char *>(s.substr(0, pos).c_str()), r, g, b);
+		max_new_x = max(new_x, max_new_x);
+		y += gHUD.m_scrinfo.iCharHeight;
+
+		if (pos != std::string::npos)
+			s = s.substr(pos + 1, std::string::npos);
+		else
+			s.erase();
+	};
+
+	return max_new_x;
+}
+
 int CHud::DrawHudNumberString(int xpos, int ypos, int iMinX, int iNumber, int r, int g, int b)
 {
 	char szString[32];

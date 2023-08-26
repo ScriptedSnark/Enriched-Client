@@ -30,6 +30,8 @@ add_sources(
 	menu.h
 	message.cpp
 	message.h
+	origin.cpp
+	origin.h
 	scores.cpp
 	scores.h
 	spectator.cpp

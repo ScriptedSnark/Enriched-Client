@@ -25,6 +25,7 @@
 #include <functional>
 #include <vector>
 #include <queue>
+#include <string>
 #include <unordered_map>
 #include <tier0/dbg.h>
 #include <Color.h>
@@ -143,6 +144,7 @@ public:
 	int DrawHudNumber(int x, int y, int number, int r, int g, int b);
 	int DrawHudNumberCentered(int x, int y, int number, int r, int g, int b);
 	int DrawHudString(int x, int y, int iMaxX, char *szString, int r, int g, int b);
+	int DrawMultilineString(int x, int y, std::string s, float r, float g, float b);
 	int DrawHudStringReverse(int xpos, int ypos, int iMinX, char *szString, int r, int g, int b);
 	int DrawHudStringColorCodes(int x, int y, int iMaxX, char *string, int _r, int _g, int _b);
 	int DrawHudStringReverseColorCodes(int x, int y, int iMaxX, char *string, int _r, int _g, int _b);

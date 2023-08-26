@@ -77,6 +77,7 @@
 #include "hud/jumpspeed.h"
 #include "hud/timer.h"
 #include "hud/strafeguide.h"
+#include "hud/origin.h"
 
 // Adrenaline Gamer HUD Elements
 #include "hud/ag/ag_countdown.h"
@@ -315,6 +316,7 @@ void CHud::Init(void)
 	RegisterHudElem<CHudJumpspeed>();
 	RegisterHudElem<CHudTimer>();
 	RegisterHudElem<CHudStrafeGuide>();
+	RegisterHudElem<CHudOrigin>();
 
 	if (CHudRenderer::Get().IsAvailable())
 	{

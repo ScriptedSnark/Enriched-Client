@@ -23,6 +23,7 @@
 #include "hud/speedometer.h"
 #include "hud/jumpspeed.h"
 #include "hud/strafeguide.h"
+#include "hud/origin.h"
 
 #ifndef M_PI
 #define M_PI 3.14159265358979323846 // matches value in gcc v2 math.h
@@ -1679,6 +1680,7 @@ void CL_DLLEXPORT V_CalcRefdef(struct ref_params_s *pparams)
 	CHudSpeedometer::Get()->UpdateSpeed(pparams->simvel);
 	CHudJumpspeed::Get()->UpdateSpeed(pparams->simvel);
 	CHudStrafeGuide::Get()->Update(pparams);
+	CHudOrigin::Get()->UpdateOrigin(pparams->simorg);
 
 	// intermission / finale rendering
 	if (pparams->intermission)
