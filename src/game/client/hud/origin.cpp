@@ -39,7 +39,7 @@ void CHudOrigin::Draw(float time)
 	    << "Y: " << m_Origin.y << "\n"
 	    << "Z: " << m_Origin.z;
 
-	gHUD.DrawMultilineString(ScreenWidth / 1.32, gHUD.m_scrinfo.iCharHeight * 4, out.str(), r, g, b);
+	gHUD.DrawMultilineString(10, gHUD.m_scrinfo.iCharHeight * 4, out.str(), r, g, b);
 }
 
 void CHudOrigin::UpdateOrigin(const float simorg[3])
