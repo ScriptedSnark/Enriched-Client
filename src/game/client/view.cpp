@@ -42,6 +42,14 @@ void NormalizeAngles(float *angles);
 void V_DropPunchAngle(float frametime, float *ev_punchangle);
 void VectorAngles(const float *forward, float *angles);
 
+#define HL2_BOB_CYCLE_MIN 1.0f
+#define HL2_BOB_CYCLE_MAX 0.45f
+#define HL2_BOB           0.002f
+#define HL2_BOB_UP        0.5f
+
+float g_lateralBob;
+float g_verticalBob;
+
 #include "r_studioint.h"
 #include "com_model.h"
 #include "kbutton.h"
@@ -101,6 +109,9 @@ ConVar cl_bob_angled("cl_bob_angled", "0", FCVAR_BHL_ARCHIVE, "Enables the angle
 
 ConVar cl_rollangle("cl_rollangle", "0", FCVAR_BHL_ARCHIVE, "Max viewroll angle");
 ConVar cl_rollspeed("cl_rollspeed", "200", FCVAR_BHL_ARCHIVE, "Max viewroll speed");
+
+ConVar cl_hl2_weaponlag("cl_hl2_weaponlag", "0", FCVAR_BHL_ARCHIVE, "Half-Life 2 weaponlag");
+ConVar cl_hl2_bob("cl_hl2_bob", "0", FCVAR_BHL_ARCHIVE, "Half-Life 2 bobbing");
 
 // These cvars are not registered (so users can't cheat), so set the ->value field directly
 // Register these cvars in V_Init() if needed for easy tweaking
@@ -178,6 +189,70 @@ static float Distance(const Vector v1, const Vector v2)
 	return Length(d);
 }
 
+float V_CalcNewBob(struct ref_params_s *pparams)
+{
+	static float bobtime;
+	static float lastbobtime;
+	float cycle;
+
+	Vector vel;
+	VectorCopy(pparams->simvel, vel);
+	vel[2] = 0;
+
+	if (pparams->onground == -1 || pparams->time == lastbobtime)
+	{
+		return 0.0f;
+	}
+
+	float speed = sqrt(vel[0] * vel[0] + vel[1] * vel[1]);
+
+	speed = clamp(speed, -320, 320);
+
+	float bob_offset = RemapVal(speed, 0, 320, 0.0f, 1.0f);
+
+	bobtime += (pparams->time - lastbobtime) * bob_offset;
+	lastbobtime = pparams->time;
+
+	//Calculate the vertical bob
+	cycle = bobtime - (int)(bobtime / HL2_BOB_CYCLE_MAX) * HL2_BOB_CYCLE_MAX;
+	cycle /= HL2_BOB_CYCLE_MAX;
+
+	if (cycle < HL2_BOB_UP)
+	{
+		cycle = M_PI * cycle / HL2_BOB_UP;
+	}
+	else
+	{
+		cycle = M_PI + M_PI * (cycle - HL2_BOB_UP) / (1.0 - HL2_BOB_UP);
+	}
+
+	g_verticalBob = speed * 0.004f;
+	g_verticalBob = g_verticalBob * 0.3 + g_verticalBob * 0.7 * sin(cycle);
+
+	g_verticalBob = clamp(g_verticalBob, -7.0f, 4.0f);
+
+	//Calculate the lateral bob
+	cycle = bobtime - (int)(bobtime / HL2_BOB_CYCLE_MAX * 2) * HL2_BOB_CYCLE_MAX * 2;
+	cycle /= HL2_BOB_CYCLE_MAX * 2;
+
+	if (cycle < HL2_BOB_UP)
+	{
+		cycle = M_PI * cycle / HL2_BOB_UP;
+	}
+	else
+	{
+		cycle = M_PI + M_PI * (cycle - HL2_BOB_UP) / (1.0 - HL2_BOB_UP);
+	}
+
+	g_lateralBob = speed * 0.004f;
+	g_lateralBob = g_lateralBob * 0.3 + g_lateralBob * 0.7 * sin(cycle);
+
+	g_lateralBob = clamp(g_lateralBob, -7.0f, 4.0f);
+
+	//NOTENOTE: We don't use this return value in our case (need to restructure the calculation function setup!)
+	return 0.0f;
+}
+
 // Quakeworld bob code, this fixes jitters in the mutliplayer since the clock (pparams->time) isn't quite linear
 float V_CalcBob(struct ref_params_s *pparams)
 {
@@ -221,7 +296,11 @@ float V_CalcBob(struct ref_params_s *pparams)
 	VectorCopy(pparams->simvel, vel);
 	vel[2] = 0;
 
-	bob = sqrt(vel[0] * vel[0] + vel[1] * vel[1]) * cvar_bob;
+	if (!cl_hl2_bob.GetBool())
+		bob = sqrt(vel[0] * vel[0] + vel[1] * vel[1]) * cvar_bob;
+	else
+		bob = sqrt(vel[0] * vel[0] + vel[1] * vel[1]) * 0;
+
 	bob = bob * 0.3 + bob * 0.7 * sin(cycle);
 	bob = min(bob, 4.f);
 	bob = max(bob, -7.f);
@@ -504,6 +583,75 @@ typedef struct
 	int CurrentAngle;
 } viewinterp_t;
 
+float m_flWeaponLag = 1.5f;
+
+/*
+==================
+V_CalcViewModelLag
+==================
+*/
+void V_CalcViewModelLag(ref_params_t *pparams, Vector &origin, Vector &angles, Vector original_angles)
+{
+	static Vector m_vecLastFacing;
+	Vector vOriginalOrigin = origin;
+	Vector vOriginalAngles = angles;
+
+	// Calculate our drift
+	Vector forward, right, up;
+	AngleVectors(angles, forward, right, up);
+
+	if (pparams->frametime != 0.0f) // not in paused
+	{
+		Vector vDifference;
+
+		vDifference = forward - m_vecLastFacing;
+
+		float flSpeed = 5.0f;
+
+		// If we start to lag too far behind, we'll increase the "catch up" speed.
+		// Solves the problem with fast cl_yawspeed, m_yaw or joysticks rotating quickly.
+		// The old code would slam lastfacing with origin causing the viewmodel to pop to a new position
+		float flDiff = vDifference.Length();
+		if ((flDiff > m_flWeaponLag) && (m_flWeaponLag > 0.0f))
+		{
+			float flScale = flDiff / m_flWeaponLag;
+			flSpeed *= flScale;
+		}
+
+		// FIXME:  Needs to be predictable?
+		m_vecLastFacing = m_vecLastFacing + vDifference * (flSpeed * pparams->frametime);
+		// Make sure it doesn't grow out of control!!!
+		m_vecLastFacing = m_vecLastFacing.Normalized();
+		origin = origin + (vDifference * -1.0f) * 5.0f;
+	}
+
+	AngleVectors(original_angles, forward, right, up);
+
+	float pitch = original_angles[PITCH];
+
+	if (pitch > 180.0f)
+	{
+		pitch -= 360.0f;
+	}
+	else if (pitch < -180.0f)
+	{
+		pitch += 360.0f;
+	}
+
+	if (m_flWeaponLag <= 0.0f)
+	{
+		origin = vOriginalOrigin;
+		angles = vOriginalAngles;
+	}
+	else
+	{
+		// FIXME: These are the old settings that caused too many exposed polys on some models
+		origin = origin + forward * (-pitch * 0.015f);
+		origin = origin + right * (-pitch * 0.01f);
+		origin = origin + up * (-pitch * 0.005f);
+	}
+}
+
 /*
 ==================
 V_CalcRefdef
@@ -666,6 +814,8 @@ void V_CalcNormalRefdef(struct ref_params_s *pparams)
 
 	// Give gun our viewangles
 	VectorCopy(pparams->cl_viewangles, view->angles);
+	
+	Vector lastAngles = view->angles; // save oldangles
 
 	// set up gun position
 	V_CalcGunAngle(pparams);
@@ -688,29 +838,56 @@ void V_CalcNormalRefdef(struct ref_params_s *pparams)
 		view->origin[i] += forward_offset * pparams->forward[i] + right_offset * pparams->right[i] + up_offset * pparams->up[i];
 	}
 
-	// Let the viewmodel shake at about 10% of the amplitude
-	gEngfuncs.V_ApplyShake(view->origin, view->angles, 0.9);
-
-	for (i = 0; i < 3; i++)
+	if (cl_hl2_bob.GetBool())
 	{
-		view->origin[i] += bob * 0.4 * pparams->forward[i];
+		Vector forward, right;
+
+		AngleVectors(view->angles, forward, right, NULL);
+
+		V_CalcNewBob(pparams);
+
+		// Apply bob, but scaled down to 40%
+		VectorMA(view->origin, g_verticalBob * 0.1f, forward, view->origin);
+
+		// Z bob a bit more
+		view->origin[2] += g_verticalBob * 0.1f;
+
+		// bob the angles
+		angles[ROLL] += g_verticalBob * 0.3f;
+		angles[PITCH] -= g_verticalBob * 0.8f;
+
+		angles[YAW] -= g_lateralBob * 0.8f;
+
+		VectorMA(view->origin, g_lateralBob * 0.8f, right, view->origin);
 	}
-	view->origin[2] += bob;
-
-	// throw in a little tilt.
-	view->angles[YAW] -= bob * 0.5;
-	view->angles[ROLL] -= bob * 1;
-	view->angles[PITCH] -= bob * 0.3;
-
-	if (cl_bob_angled.GetBool())
+	else
 	{
-		view->curstate.angles = view->angles;
-	}
+		// Let the viewmodel shake at about 10% of the amplitude
+		gEngfuncs.V_ApplyShake(view->origin, view->angles, 0.9);
 
+		for (i = 0; i < 3; i++)
+		{
+			view->origin[i] += bob * 0.4 * pparams->forward[i];
+		}
+		view->origin[2] += bob;
+
+		// throw in a little tilt.
+		view->angles[YAW] -= bob * 0.5;
+		view->angles[ROLL] -= bob * 1;
+		view->angles[PITCH] -= bob * 0.3;
+
+		if (cl_bob_angled.GetBool())
+		{
+			view->curstate.angles = view->angles;
+		}
+	}
 	// pushing the view origin down off of the same X/Z plane as the ent's origin will give the
 	// gun a very nice 'shifting' effect when the player looks up/down. If there is a problem
 	// with view model distortion, this may be a cause. (SJB).
 	view->origin[2] -= 1;
+
+	if (cl_hl2_weaponlag.GetBool())
+		V_CalcViewModelLag(pparams, view->origin, view->angles, lastAngles);
 
 	// fudge position around to keep amount of weapon visible
 	// roughly equal with different FOV
