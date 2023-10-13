@@ -200,6 +200,22 @@ public:
 	// Concatenated bone and light transforms
 	float (*m_pbonetransform)[MAXSTUDIOBONES][3][4];
 	float (*m_plighttransform)[MAXSTUDIOBONES][3][4];
+
+	void StudioDrawShadow(void);
+	void StudioDrawPointsShadow(void);
+	void StudioGetVerts(void);
+
+	Vector verts[MAXSTUDIOVERTS];
+	Vector lightspot;
+
+	int lightage[MAXSTUDIOBONES];
+
+	Vector lightpos[MAXSTUDIOVERTS][32];
+	Vector lightbonepos[MAXSTUDIOBONES][32];
+
+	void StudioSetupModel(int bodypart, void **ppbodypart, void **ppsubmodel);
+
+	alight_t storedlight;
 };
 
 #endif // STUDIOMODELRENDERER_H
