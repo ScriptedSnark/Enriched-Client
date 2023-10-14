@@ -113,6 +113,8 @@ ConVar cl_rollspeed("cl_rollspeed", "200", FCVAR_BHL_ARCHIVE, "Max viewroll spee
 ConVar cl_hl2_weaponlag("cl_hl2_weaponlag", "0", FCVAR_BHL_ARCHIVE, "Half-Life 2 weaponlag");
 ConVar cl_hl2_bob("cl_hl2_bob", "0", FCVAR_BHL_ARCHIVE, "Half-Life 2 bobbing");
 
+ConVar cl_disable_deadcam("cl_disable_deadcam", "0", FCVAR_BHL_ARCHIVE, "Disable deadcam");
+
 // These cvars are not registered (so users can't cheat), so set the ->value field directly
 // Register these cvars in V_Init() if needed for easy tweaking
 cvar_t v_iyaw_cycle = { "v_iyaw_cycle", "2", 0, 2 };
@@ -521,7 +523,9 @@ void V_CalcViewRoll(struct ref_params_s *pparams)
 	{
 		// only roll the view if the player is dead and the viewheight[2] is nonzero
 		// this is so deadcam in multiplayer will work.
-		pparams->viewangles[ROLL] = 80; // dead view angle
+		if (!cl_disable_deadcam.GetBool())
+			pparams->viewangles[ROLL] = 80; // dead view angle
+
 		return;
 	}
 }
