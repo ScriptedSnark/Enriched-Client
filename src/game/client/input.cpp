@@ -119,6 +119,7 @@ kbutton_t in_alt1;
 kbutton_t in_score;
 kbutton_t in_break;
 kbutton_t in_graph; // Display the netgraph
+kbutton_t in_duckroll;
 kbutton_t in_ducktap;
 
 typedef struct kblist_s
@@ -158,6 +159,26 @@ static void HandleAutojump(usercmd_t *cmd)
 	}
 
 	s_bJumpWasDownLastFrame = ((cmd->buttons & IN_JUMP) != 0);
+}
+
+static void HandleDuckroll(usercmd_t *cmd)
+{
+	static bool bToggleDuckroll = false;
+	bool bPressedDuckroll = in_duckroll.state & 1;
+
+	if (!bPressedDuckroll)
+		return;
+
+	if (!bToggleDuckroll)
+	{
+		cmd->buttons |= IN_DUCK;
+		bToggleDuckroll = true;
+	}
+	else
+	{
+		cmd->buttons &= ~IN_DUCK;
+		bToggleDuckroll = false;
+	}
 }
 
 static void HandleDucktap(usercmd_t *cmd)
@@ -452,6 +473,8 @@ void IN_LeftDown(void) { KeyDown(&in_left); }
 void IN_LeftUp(void) { KeyUp(&in_left); }
 void IN_RightDown(void) { KeyDown(&in_right); }
 void IN_RightUp(void) { KeyUp(&in_right); }
+void IN_DuckrollUp(void) { KeyUp(&in_duckroll); }
+void IN_DuckrollDown(void) { KeyDown(&in_duckroll); }
 void IN_DucktapUp(void) { KeyUp(&in_ducktap); }
 void IN_DucktapDown(void) { KeyDown(&in_ducktap); }
 
@@ -811,6 +834,8 @@ void CL_DLLEXPORT CL_CreateMove(float frametime, struct usercmd_s *cmd, int acti
 		autofuncs::HandleAutojump(cmd);
 	}
 
+	autofuncs::HandleDuckroll(cmd);
+
 	// Using joystick?
 	if (in_joystick->value)
 	{
@@ -1020,6 +1045,7 @@ int CL_ButtonBits(int bResetState)
 		in_reload.state &= ~2;
 		in_alt1.state &= ~2;
 		in_score.state &= ~2;
+		in_duckroll.state &= ~2;
 		in_ducktap.state &= ~2;
 	}
 
@@ -1114,6 +1140,8 @@ void InitInput(void)
 	gEngfuncs.pfnAddCommand("-graph", IN_GraphUp);
 	gEngfuncs.pfnAddCommand("+break", IN_BreakDown);
 	gEngfuncs.pfnAddCommand("-break", IN_BreakUp);
+	gEngfuncs.pfnAddCommand("+duckroll", IN_DuckrollDown);
+	gEngfuncs.pfnAddCommand("-duckroll", IN_DuckrollUp);
 	gEngfuncs.pfnAddCommand("+ducktap", IN_DucktapDown);
 	gEngfuncs.pfnAddCommand("-ducktap", IN_DucktapUp);
 
