@@ -32,7 +32,7 @@ static char s_ComToken[1024];
 constexpr size_t MAX_CMD_LINE = 1024;
 const char *s_BlockList = "^(exit|quit|bind|unbind|unbindall|kill|exec|alias|clear|"
                           "motdfile|motd_write|writecfg|developer|fps.+|rcon.*)$";
-const char *s_BlockListCvar = "^(rcon.*)$";
+const char *s_BlockListCvar = "^(MP3Volume|volume|name|rcon.*)$";
 
 static ConVar cl_messages_log("cl_messages_log", "0", FCVAR_BHL_ARCHIVE);
 static ConVar cl_protect_log("cl_protect_log", "1", FCVAR_BHL_ARCHIVE);
