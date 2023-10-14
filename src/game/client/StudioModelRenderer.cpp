@@ -22,10 +22,6 @@
 #include "GameStudioModelRenderer.h"
 #include "opengl.h"
 
-#include "pmtrace.h"
-#include "pm_defs.h"
-#include "event_api.h"
-
 // Bones that used in gait animation
 #define NUM_LEGS_BONES 8
 const char *legs_bones[NUM_LEGS_BONES] = {
@@ -60,8 +56,6 @@ ConVar cl_viewmodel_hltv("cl_viewmodel_hltv", "0", FCVAR_BHL_ARCHIVE,
     "   7 - disables all above but reloading\n"
     "  15 - disables all listed above");
 extern ConVar cl_righthand;
-
-ConVar r_shadows("r_shadows", "0", FCVAR_BHL_ARCHIVE, "Shadows");
 
 namespace
 {
@@ -1239,7 +1233,6 @@ int CStudioModelRenderer::StudioDrawModel(int flags)
 
 		// model and frame independant
 		IEngineStudio.StudioSetupLighting(&lighting);
-		memcpy(&storedlight, &lighting, sizeof(alight_s));
 
 		// get remap colors
 		m_nTopColor = m_pCurrentEntity->curstate.colormap & 0xFF;
@@ -1811,8 +1804,6 @@ void CStudioModelRenderer::StudioRenderFinal_Hardware(void)
 		{
 			IEngineStudio.StudioSetupModel(i, (void **)&m_pBodyPart, (void **)&m_pSubModel);
 
-			StudioSetupModel(i, (void **)&m_pBodyPart, (void **)&m_pSubModel);
-
 			if (m_fDoInterp)
 			{
 				// interpolation messes up bounding boxes.
@@ -1826,11 +1817,7 @@ void CStudioModelRenderer::StudioRenderFinal_Hardware(void)
 				SetViewmodelFovProjection();
 			}
 			IEngineStudio.StudioDrawPoints();
-			
-			StudioGetVerts();
-
-			if (m_pCurrentEntity != gEngfuncs.GetViewModel())
-				StudioDrawShadow();
+			IEngineStudio.GL_StudioDrawShadow();
 		}
 	}
 
@@ -1864,189 +1851,5 @@ void CStudioModelRenderer::StudioRenderFinal(void)
 	else
 	{
 		StudioRenderFinal_Software();
-	}
-}
-
-void Matrix3x4_VectorTransform(const float in[3][4], const float v[3], float out[3])
-{
-	out[0] = v[0] * in[0][0] + v[1] * in[0][1] + v[2] * in[0][2] + in[0][3];
-	out[1] = v[0] * in[1][0] + v[1] * in[1][1] + v[2] * in[1][2] + in[1][3];
-	out[2] = v[0] * in[2][0] + v[1] * in[2][1] + v[2] * in[2][2] + in[2][3];
-}
-
-/*
-===============
-pfnStudioSetupModel
-===============
-*/
-void CStudioModelRenderer::StudioSetupModel(int bodypart, void **ppbodypart, void **ppsubmodel)
-{
-	int index;
-
-	if (bodypart > m_pStudioHeader->numbodyparts)
-		bodypart = 0;
-
-	m_pBodyPart = (mstudiobodyparts_t *)((byte *)m_pStudioHeader + m_pStudioHeader->bodypartindex) + bodypart;
-
-	index = m_pCurrentEntity->curstate.body / m_pBodyPart->base;
-	index = index % m_pBodyPart->nummodels;
-
-	m_pSubModel = (mstudiomodel_t *)((byte *)m_pStudioHeader + m_pBodyPart->modelindex) + index;
-
-	if (ppbodypart)
-		*ppbodypart = m_pBodyPart;
-	if (ppsubmodel)
-		*ppsubmodel = m_pSubModel;
-}
-
-/*
-===============
-R_StudioDrawPoints
-===============
-*/
-void CStudioModelRenderer::StudioGetVerts(void)
-{
-	byte *pvertbone;
-	Vector *pstudioverts;
-
-	if (!m_pStudioHeader)
-		return;
-
-	pvertbone = ((byte *)m_pStudioHeader + m_pSubModel->vertinfoindex);
-
-	pstudioverts = (Vector *)((byte *)m_pStudioHeader + m_pSubModel->vertindex);
-
-	for (int i = 0; i < m_pSubModel->numverts; i++)
-	{
-		Matrix3x4_VectorTransform((*m_pbonetransform)[pvertbone[i]], pstudioverts[i], verts[i]);
-	}
-}
-
-/*
-===============
-R_StudioDrawPointsShadow
-===============
-*/
-void CStudioModelRenderer::StudioDrawPointsShadow(void)
-{
-	float *av, height;
-	float vec_x, vec_y;
-	mstudiomesh_t *pmesh;
-	Vector point;
-	int i, k;
-	int hasStencil = 8;
-	static int numpoly = 0;
-
-	Vector vecSrc, vecEnd;
-	pmtrace_t tr;
-	// Store off the old count
-	gEngfuncs.pEventAPI->EV_PushPMStates();
-
-	vecSrc = m_pCurrentEntity->origin;
-	vecEnd = m_pCurrentEntity->origin - Vector(0, 0, 8192);
-
-	gEngfuncs.pEventAPI->EV_SetSolidPlayers(gEngfuncs.GetLocalPlayer()->index - 1);
-
-	gEngfuncs.pEventAPI->EV_SetTraceHull(2);
-	gEngfuncs.pEventAPI->EV_PlayerTrace(vecSrc, vecEnd, PM_GLASS_IGNORE | PM_WORLD_ONLY, m_pCurrentEntity->index, &tr);
-
-	gEngfuncs.pEventAPI->EV_PopPMStates();
-
-	if (m_pCurrentEntity->curstate.effects & EF_NOSHADOW)
-		return;
-
-	if (hasStencil != 0)
-	{
-		glEnable(GL_STENCIL_TEST);
-	}
-
-	// magic nipples - no more shadows from lightsources because it looks bad
-	height = 0.1f;
-	vec_y = 0;
-	vec_x = 1;
-
-	for (k = 0; k < m_pSubModel->nummesh; k++)
-	{
-		short *ptricmds;
-
-		pmesh = (mstudiomesh_t *)((byte *)m_pStudioHeader + m_pSubModel->meshindex) + k;
-		ptricmds = (short *)((byte *)m_pStudioHeader + pmesh->triindex);
-
-		while (i = *(ptricmds++))
-		{
-			if (i < 0)
-			{
-				glBegin(GL_TRIANGLE_FAN);
-				i = -i;
-			}
-			else
-			{
-				glBegin(GL_TRIANGLE_STRIP);
-			}
-
-			for (; i > 0; i--, ptricmds += 4)
-			{
-				av = verts[ptricmds[0]];
-				point[0] = av[0] - (vec_x * (av[2] - tr.endpos[2]));
-				point[1] = av[1] - (vec_y * (av[2] - tr.endpos[2]));
-				point[2] = tr.endpos[2] + height;
-
-				glVertex3fv(point);
-			}
-
-			glEnd();
-		}
-	}
-
-	if (hasStencil != 0)
-		glDisable(GL_STENCIL_TEST);
-}
-
-// TODO: move it
-float lerp(float start, float end, float frac)
-{
-	// Exact, monotonic, bounded, determinate, and (for a=b=0) consistent:
-	if (start <= 0 && end >= 0 || start >= 0 && end <= 0)
-		return frac * end + (1 - frac) * start;
-
-	if (frac == 1)
-		return end; // exact
-	// Exact at t=0, monotonic except near t=1,
-	// bounded, determinate, and consistent:
-	const float x = start + frac * (end - start);
-	return frac > 1 == end > start ? max(end, x) : min(end, x); // monotonic near t=1
-}
-
-/*
-===============
-GL_StudioDrawShadow
-g-cont: don't modify this code it's 100% matched with
-original GoldSrc code and used in some mods to enable
-studio shadows with some asm tricks
-===============
-*/
-void CStudioModelRenderer::StudioDrawShadow(void)
-{
-	glDepthMask(GL_TRUE);
-
-	float intensity = m_pCurrentEntity->baseline.fuser4 = lerp(m_pCurrentEntity->baseline.fuser4, ((float)storedlight.ambientlight / 128.f), gHUD.m_flTimeDelta * 17.9f);
-
-	if (r_shadows.GetBool() && m_pCurrentEntity->curstate.rendermode != kRenderTransAdd)
-	{
-		float color = intensity;
-
-		glDisable(GL_TEXTURE_2D);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		glEnable(GL_BLEND);
-		glColor4f(0.0f, 0.0f, 0.0f, 1.0f - color);
-
-		glDepthFunc(GL_LESS);
-		StudioDrawPointsShadow();
-		glDepthFunc(GL_LEQUAL);
-
-		glEnable(GL_TEXTURE_2D);
-		glDisable(GL_BLEND);
-		glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-		glShadeModel(GL_SMOOTH);
 	}
 }
