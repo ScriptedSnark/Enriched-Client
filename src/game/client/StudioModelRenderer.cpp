@@ -55,6 +55,9 @@ ConVar cl_viewmodel_hltv("cl_viewmodel_hltv", "0", FCVAR_BHL_ARCHIVE,
     "  +8 - disables reload animations\n"
     "   7 - disables all above but reloading\n"
     "  15 - disables all listed above");
+
+ConVar cl_playermodel_gait("cl_playermodel_gait", "1", FCVAR_BHL_ARCHIVE, "Player model gaitsequences\n");
+
 extern ConVar cl_righthand;
 
 namespace
@@ -823,6 +826,15 @@ void CStudioModelRenderer::StudioSetupBones(void)
 	if (m_pCurrentEntity->curstate.sequence >= m_pStudioHeader->numseq)
 	{
 		m_pCurrentEntity->curstate.sequence = 0;
+	}
+
+	if (m_pPlayerInfo)
+	{
+		if (cl_playermodel_gait.GetInt() == 0)
+		{
+			m_pPlayerInfo->gaitsequence = 0;
+			m_pPlayerInfo->gaitframe = 0;
+		}
 	}
 
 	pseqdesc = (mstudioseqdesc_t *)((byte *)m_pStudioHeader + m_pStudioHeader->seqindex) + m_pCurrentEntity->curstate.sequence;
