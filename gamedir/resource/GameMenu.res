@@ -35,54 +35,60 @@
 	}
 	"6"
 	{
+		"label" "Join latest server"
+		"command" "engine joinlast"
+		"notsingle" "1"
+	}
+	"7"
+	{
 		"label" "#GameUI_GameMenu_NewGame"
 		"command" "OpenNewGameDialog"
 		"notmulti" "1"
 	}
-	"7"
+	"8"
 	{
 		"label" "#GameUI_GameMenu_LoadGame"
 		"command" "OpenLoadGameDialog"
 		"notmulti" "1"
 	}
-	"8"
+	"9"
 	{
 		"label" "#GameUI_GameMenu_SaveGame"
 		"command" "OpenSaveGameDialog"
 		"notmulti" "1"
 		"OnlyInGame" "1"
 	}
-	"9"
+	"10"
 	{
 		"label" ""
 		"command" ""
 		"notmulti" "1"
 	}
-	"10"
+	"11"
 	{
 		"label" "#GameUI_GameMenu_FindServers"
 		"command" "OpenServerBrowser"
 		"notsingle" "1"
 	}
-	"11"
+	"12"
 	{
 		"label" "#GameUI_GameMenu_CreateServer"
 		"command" "OpenCreateMultiplayerGameDialog"
 		"notsingle" "1"
 	}
-//	"12"
+//	"13"
 //	{
 //		"name" "LoadDemo"
 //		"label" "#GameUI_GameMenu_PlayDemo"
 //		"command" "OpenLoadDemoDialog"
 //	}
-	"13"
+	"14"
 	{
 		"label" ""
 		"command" ""
 		"notsingle" "1"
 	}
-	"14"
+	"15"
 	{
 		"label" "#GameUI_GameMenu_ChangeGame"
 		"command" "OpenChangeGameDialog"
@@ -90,17 +96,17 @@
 		"notsingle" "1"
 		"notmulti" "1"
 	}
-	"15"
+	"16"
 	{
 		"label" "#GameUI_GameMenu_Options"
 		"command" "OpenOptionsDialog"
 	}
-	"16"
+	"17"
 	{
 		"label" "#BHL_GameMenu_AdvOptions"
 		"command" "engine gameui_cl_open_adv_options"
 	}
-	"17"
+	"18"
 	{
 		"label" "#GameUI_GameMenu_Quit"
 		"command" "Quit"
