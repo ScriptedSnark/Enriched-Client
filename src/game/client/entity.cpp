@@ -23,6 +23,7 @@ ConVar r_dynamic_ent_light("r_dynamic_ent_light", "1", FCVAR_BHL_ARCHIVE);
 ConVar cl_hidecorpses("cl_hidecorpses", "0", FCVAR_BHL_ARCHIVE);
 
 void Game_AddObjects(void);
+void ClearStencilBuffer();
 
 extern Vector v_origin;
 
@@ -340,6 +341,8 @@ void CL_DLLEXPORT HUD_CreateEntities(void)
 	Game_AddObjects();
 
 	GetClientVoiceMgr()->CreateEntities();
+
+	ClearStencilBuffer();
 }
 
 #if defined(_TFC)

@@ -50,6 +50,7 @@ void InitInput(void);
 void ShutdownInput();
 void EV_HookEvents(void);
 void IN_Commands(void);
+void R_StudioVidInit();
 
 /**
  * Checks that game is launched with working directory set to engine path.
@@ -253,6 +254,7 @@ int CL_DLLEXPORT HUD_VidInit(void)
 	PM_ResetBHopDetection();
 	CResults::Get().Stop();
 	GetClientVoiceMgr()->VidInit();
+	R_StudioVidInit();
 
 	return 1;
 }

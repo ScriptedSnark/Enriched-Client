@@ -13,6 +13,56 @@
 #include "com_model.h"
 #include "studio.h"
 
+// buz start
+// disable "identifier was truncated to '255' characters in the browser information" messages
+#include "opengl.h"
+
+#include <assert.h>
+#include <vector>
+#include <map>
+#include <string>
+
+const int MaxShadowFaceCount = 10000;
+
+// some precomputed data about model, for shadow volumes optimization
+
+struct Edge
+{
+	GLushort vertex0;
+	GLushort vertex1;
+	GLushort face0;
+	GLushort face1;
+};
+
+struct Face
+{
+	Face() { }
+	Face(GLushort v0, GLushort v1, GLushort v2)
+	    : vertex0(v0)
+	    , vertex1(v1)
+	    , vertex2(v2)
+	{
+	}
+	GLushort vertex0;
+	GLushort vertex1;
+	GLushort vertex2;
+};
+
+struct SubModelData
+{
+	std::vector<Face> faces;
+	std::vector<Edge> edges;
+};
+
+struct ModelExtraData
+{
+	std::vector<SubModelData> submodels;
+};
+
+typedef std::map<std::string, ModelExtraData> ExtraDataMap;
+
+// buz end
+
 /*
 ====================
 CStudioModelRenderer
@@ -200,6 +250,36 @@ public:
 	// Concatenated bone and light transforms
 	float (*m_pbonetransform)[MAXSTUDIOBONES][3][4];
 	float (*m_plighttransform)[MAXSTUDIOBONES][3][4];
+
+private:
+	// buz start
+	ExtraDataMap m_ExtraData;
+	ModelExtraData *m_pCurretExtraData;
+
+	Vector m_ShadowDir;
+
+	void SetupModelExtraData(void);
+	void BuildFaces(SubModelData &dst, mstudiomodel_t *src);
+	void BuildEdges(SubModelData &dst, mstudiomodel_t *src);
+	void AddEdge(SubModelData &dst, int face, int v0, int v1);
+
+	void DrawShadowsForEnt(void);
+	void DrawShadowVolume(SubModelData &data, mstudiomodel_t *model);
+
+	cvar_t *sv_skyvec_x;
+	cvar_t *sv_skyvec_y;
+	cvar_t *sv_skyvec_z;
+
+public:
+	void GetShadowVector(Vector &vecOut);
+	// Shadow data writing functions.
+	void StudioWriteData();
+	bool StudioReadData();
+	void StudioWriteDataAll();
+
+	bool m_bCacheShadowData;
+
+	std::vector<std::string> m_CachedInfos;
 };
 
 #endif // STUDIOMODELRENDERER_H

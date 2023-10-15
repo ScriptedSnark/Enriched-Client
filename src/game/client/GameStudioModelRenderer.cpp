@@ -644,6 +644,17 @@ int R_StudioDrawModel(int flags)
 	return g_StudioRenderer.StudioDrawModel(flags);
 }
 
+
+/*
+====================
+R_StudioVidInit
+====================
+*/
+void R_StudioVidInit()
+{
+	g_StudioRenderer.m_bCacheShadowData = true;
+}
+
 /*
 ====================
 R_StudioInit

@@ -42,6 +42,8 @@ void NormalizeAngles(float *angles);
 void V_DropPunchAngle(float frametime, float *ev_punchangle);
 void VectorAngles(const float *forward, float *angles);
 
+void SetupBuffer();
+
 #define HL2_BOB_CYCLE_MIN 1.0f
 #define HL2_BOB_CYCLE_MAX 0.45f
 #define HL2_BOB           0.002f
@@ -101,6 +103,7 @@ cvar_t *cl_bobup;
 cvar_t *cl_waterdist;
 cvar_t *cl_chasedist;
 
+ConVar cl_shadows("cl_shadows", "0", FCVAR_BHL_ARCHIVE, "Shadows");
 ConVar cl_viewmodel_ofs_right("cl_viewmodel_ofs_right", "0", FCVAR_BHL_ARCHIVE, "Viewmodel right offset");
 ConVar cl_viewmodel_ofs_forward("cl_viewmodel_ofs_forward", "0", FCVAR_BHL_ARCHIVE, "Viewmodel forward offset");
 ConVar cl_viewmodel_ofs_up("cl_viewmodel_ofs_up", "0", FCVAR_BHL_ARCHIVE, "Viewmodel up offset");
@@ -1876,6 +1879,10 @@ void CL_DLLEXPORT V_CalcRefdef(struct ref_params_s *pparams)
 	{
 		V_CalcNormalRefdef(pparams);
 	}
+
+	// buz
+	if (cl_shadows.GetBool())
+		SetupBuffer();
 
 	// Save view data for viewmodel renderer
 	g_vViewOrigin = pparams->vieworg;
