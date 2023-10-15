@@ -47,13 +47,28 @@ Vector vertexdata[MaxShadowFaceCount * 5];
 GLushort indexdata[MaxShadowFaceCount * 3 * 5];
 
 bool g_bShadows;
+extern ConVar cl_shadows;
 
 void SetupBuffer(void)
 {
 	glVertexPointer(3, GL_FLOAT, sizeof(Vector), vertexdata);
 	glEnableClientState(GL_VERTEX_ARRAY);
 	g_shadowpolycounter = 0;
-	g_bShadows = true;
+
+	static GLint stencilBits = 0;
+	glGetIntegerv(GL_STENCIL_BITS, &stencilBits);
+
+	if (stencilBits < 1) // TODO:
+	{
+		g_bShadows = false;
+		glDisableClientState(GL_VERTEX_ARRAY);
+		cl_shadows.SetValue(0);
+		ConPrintf(ConColor::Red, "Failed to enable shadows. The window doesn't have stencil buffer.\n");
+	}
+	else
+	{
+		g_bShadows = true;
+	}
 }
 
 void ClearBuffer(void)
