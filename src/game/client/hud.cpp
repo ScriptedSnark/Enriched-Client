@@ -196,7 +196,7 @@ void WriteIPAddress()
 	if (!pFile)
 		return;
 
-	fprintf(pFile, address);
+	fprintf(pFile, "%s", address);
 	fflush(pFile);
 	fclose(pFile);
 }
@@ -831,7 +831,9 @@ CON_COMMAND(joinlast, "Joins latest server.")
 		return;
 
 	char address[32];
-	fgets(address, sizeof(address), inFile);
+
+	if (!fgets(address, sizeof(address), inFile))
+		return;
 
 	char cmd[64];
 	sprintf(cmd, "connect %s", address);
