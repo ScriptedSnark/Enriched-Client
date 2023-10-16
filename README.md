@@ -1,3 +1,9 @@
+Enriched Client
+===============================
+
+Fork of BugfixedHL-Rebased. Contains features/improvements from AG 6.6-U and other clients.
+
+
 Bugfixed and improved Half-Life
 ===============================
 
