@@ -166,13 +166,13 @@ void HookHudMessage(const char *name)
 
 static void AboutCommand(void)
 {
-	ConPrintf("BugfixedHL-Rebased\n");
-	ConPrintf("Bugfixed and improved Half-Life Client\n");
+	ConPrintf("Enriched Client\n");
+	ConPrintf("Based on BugfixedHL-Rebased\n");
 	ConPrintf("Version: " APP_VERSION "%s\n", IsDebug() ? " [Debug Build]" : "");
 	ConPrintf("Engine: %s\n", gHUD.GetEngineVersion());
 	ConPrintf("\n");
-	ConPrintf("Github: " BHL_GITHUB_URL "\n");
-	ConPrintf("Discussion forum: " BHL_FORUM_URL "\n");
+	ConPrintf("Github: " ENR_GITHUB_URL "\n");
+	ConPrintf("Discord server: " ENR_DISCORD_URL "\n");
 }
 
 void WriteIPAddress()

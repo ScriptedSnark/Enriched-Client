@@ -146,7 +146,7 @@ void CUpdateChecker::FetchReleaseList()
 	m_bUpdateFound = false;
 	m_Changelog.clear();
 
-	char url[1024] = BHL_GITHUB_API "releases";
+	char url[1024] = ENR_GITHUB_API "releases";
 
 	char *overrideUrl = nullptr;
 	if (gEngfuncs.CheckParm("-bhl_api_url", &overrideUrl))
@@ -156,7 +156,7 @@ void CUpdateChecker::FetchReleaseList()
 
 	CHttpClient::Request req(url);
 	req.AddHeader("Accept: application/vnd.github.v3+json");
-	req.AddHeader("User-Agent: tmp64-BugfixedHL-Rebased");
+	req.AddHeader("User-Agent: ScriptedSnark-Enriched-Client");
 	req.SetCallback([this](CHttpClient::Response &response) {
 		OnDataLoaded(response);
 	});
@@ -304,7 +304,7 @@ void CUpdateChecker::OnUpdateFound()
 	ConPrintf("* New version:  %s\n", VerToString(m_LatestVersion));
 	ConPrintf("************************************************\n");
 	ConPrintf("* Type 'update_changelog' to see what's new.\n");
-	ConPrintf("* " BHL_GITHUB_URL "\n");
+	ConPrintf("* " ENR_GITHUB_URL "\n");
 	ConPrintf("************************************************\n");
 	ConPrintf("\n");
 	console::ResetColor();

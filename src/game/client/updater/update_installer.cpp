@@ -1464,7 +1464,7 @@ void CUpdateInstaller::CleanUp() noexcept
 	m_InstallationPath.clear();
 }
 
-CON_COMMAND(bhl_validate_files, "Validates integrity of BugfixedHL files, may freeze the game for a bit")
+CON_COMMAND(bhl_validate_files, "Validates integrity of BugfixedHL (Enriched) files, may freeze the game for a bit")
 {
 	using nlohmann::json;
 
@@ -1473,7 +1473,7 @@ CON_COMMAND(bhl_validate_files, "Validates integrity of BugfixedHL files, may fr
 
 	// Print diagnostic info
 	ConPrintf(ConColor::Cyan, ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n");
-	ConPrintf(ConColor::Yellow, "BugfixedHL Rebased " APP_VERSION "\n");
+	ConPrintf(ConColor::Yellow, "Enriched " APP_VERSION "\n");
 
 	ConPrintf("Binary version: " APP_VERSION);
 	if (IsDebug())

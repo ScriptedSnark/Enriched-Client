@@ -105,7 +105,7 @@ CAboutSubOptions::CAboutSubOptions(vgui2::Panel *parent)
 	m_pCheckUpdatesButton = new vgui2::Button(this, "CheckUpdatesButton", "#BHL_AdvOptions_About_Check", this, "CheckUpd");
 
 	m_pGitHubLink = new vgui2::URLLabel(this, "GitHubLink", "#BHL_AdvOptions_About_GitHub", "URL goes here");
-	m_pAghlLink = new vgui2::URLLabel(this, "AghlLink", "#BHL_AdvOptions_About_AGHL", "URL goes here");
+	m_pDiscordLink = new vgui2::URLLabel(this, "DiscordLink", "#BHL_AdvOptions_About_Discord", "URL goes here");
 	m_pOSSCredits = new COptionsURLButton(this, "OSSCredits", "#BHL_AdvOptions_About_OSSCredits");
 
 #if USE_UPDATER
@@ -132,8 +132,8 @@ void CAboutSubOptions::PerformLayout()
 {
 	BaseClass::PerformLayout();
 
-	m_pGitHubLink->SetURL(BHL_GITHUB_URL);
-	m_pAghlLink->SetURL(BHL_FORUM_URL);
+	m_pGitHubLink->SetURL(ENR_GITHUB_URL);
+	m_pDiscordLink->SetURL(ENR_DISCORD_URL);
 
 	auto fnPositionAfter = [](vgui2::Label *left, vgui2::Label *right) {
 		int x, y, wide, tall;

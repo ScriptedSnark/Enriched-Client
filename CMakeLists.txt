@@ -54,7 +54,7 @@ unset( BHL_REPO_VERSION_PATCH )
 unset( BHL_REPO_VERSION_TAG )
 # Use BHL_VERSION_XXX from now on
 
-project( BugfixedHL VERSION "${BHL_VERSION_MAJOR}.${BHL_VERSION_MINOR}.${BHL_VERSION_PATCH}" )
+project( Enriched VERSION "${BHL_VERSION_MAJOR}.${BHL_VERSION_MINOR}.${BHL_VERSION_PATCH}" )
 include( PlatformInfo )
 include( CTest )
 

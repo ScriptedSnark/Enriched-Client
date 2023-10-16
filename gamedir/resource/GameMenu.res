@@ -35,7 +35,7 @@
 	}
 	"6"
 	{
-		"label" "Join latest server"
+		"label" "#BHL_GameMenu_JoinLast"
 		"command" "engine joinlast"
 		"notsingle" "1"
 	}

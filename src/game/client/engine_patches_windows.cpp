@@ -824,7 +824,7 @@ public:
 			DWORD exceptionCode = pExceptionInfo->ExceptionRecord->ExceptionCode;
 			DWORD exceptionAddress = (DWORD)pExceptionInfo->ExceptionRecord->ExceptionAddress;
 
-			fprintf(file, "BugfixedHL Crash Log\n");
+			fprintf(file, "Enriched Crash Log\n");
 			fprintf(file, "  Exception %s (0x%08X) at address 0x%08X (%s).\n",
 			    ExceptionCodeString(exceptionCode),
 			    exceptionCode,
@@ -833,7 +833,7 @@ public:
 			fprintf(file, "\n");
 
 			fprintf(file, "Please post contents of this log file and file %s.dmp on\n", m_szCrashFileName);
-			fprintf(file, "%s/issues\n", BHL_GITHUB_URL);
+			fprintf(file, "%s/issues\n", ENR_GITHUB_URL);
 			fprintf(file, "\n\n\n\n\n");
 			fprintf(file, "-------------------------------------------------------------------------\n");
 			fprintf(file, "Technical information\n");
@@ -1006,7 +1006,7 @@ public:
 		    "\n"
 		    "A crash log file was opened in Notepad.\n"
 		    "Please report its contents as well as file named %s.dmp on GitHub.\n"
-		    "\n" BHL_GITHUB_URL "/issues",
+		    "\n" ENR_GITHUB_URL "/issues",
 		    ExceptionCodeString(pExceptionInfo->ExceptionRecord->ExceptionCode),
 		    m_szCrashFileName);
 

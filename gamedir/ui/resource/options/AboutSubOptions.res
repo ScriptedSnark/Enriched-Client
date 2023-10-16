@@ -236,10 +236,10 @@
 		"useproportionalinsets"		"0"
 		"URLText"		"https://github.com/tmp64/BugfixedHL-Rebased"
 	}
-	"AghlLink"
+	"DiscordLink"
 	{
 		"ControlName"		"URLLabel"
-		"fieldName"		"AghlLink"
+		"fieldName"		"DiscordLink"
 		"xpos"		"12"
 		"ypos"		"280"
 		"wide"		"480"
@@ -252,7 +252,7 @@
 		"visible"		"1"
 		"enabled"		"1"
 		"tabPosition"		"0"
-		"labelText"		"#BHL_AdvOptions_About_AGHL"
+		"labelText"		"#BHL_AdvOptions_About_Discord"
 		"textAlignment"		"west"
 		"dulltext"		"0"
 		"brighttext"		"0"
@@ -262,7 +262,7 @@
 		"textinsety"		"0"
 		"autowidetocontents"		"0"
 		"useproportionalinsets"		"0"
-		"URLText"		"http://aghl.ru/forum/viewtopic.php?f=36&t=686"
+		"URLText"		"https://discord.gg/DgWApNGnGH"
 	}
 	"OSSCredits"
 	{
